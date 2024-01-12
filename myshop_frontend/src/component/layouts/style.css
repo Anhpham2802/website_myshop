@@ -1,0 +1,22 @@
+.heart-icon span {
+	position: absolute;
+	/* right: 8px;
+	top: -1px; */
+	margin-left: 25px;
+	top: 668px;
+	height: 14px;
+	width: 14px;
+	background: #e7ab3c;
+	color: #ffffff;
+	border-radius: 50%;
+	font-size: 10px;
+	font-weight: 700;
+	text-align: center;
+	line-height: 15px;
+}
+
+.cart-icon {
+	margin-left: 57px !important;
+}
+
+/* Slide show */
