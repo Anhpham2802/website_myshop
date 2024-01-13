@@ -166,7 +166,7 @@ const Home = () => {
     const renderFeatProducts = (data) => {
         const tabList = [];
         const tabPanels = [];
-        
+
         // console.log(data);
         Object.keys(data).forEach((key, index) => {
             // console.log(key, index);
@@ -177,46 +177,45 @@ const Home = () => {
             const tabPanel = [];
             data[key].products.forEach((item, j) => {
                 tabPanel.push(
-                    // <Carousel responsive={responsive}  key={j} className="w-full">
-                    //     <div className="product-item mx-auto">
-                    //         <div className="pi-pic">
-                    //             <img src={item.img} alt="" className="h-[225px] w-[100%]" />
-                    //             <div className="sale">Sale</div>
-                    //             <div className="icon">
-                    //                 <i className="icon_heart_alt">❤️</i>
-                    //             </div>
-                    //             <ul className="flex m-auto">
-                    //                 <li className="w-icon active"><a href="#"><i><SlHandbag /></i></a></li>
-                    //                 <li className="">
-                    //                     <Link to="" className="-mt-1 quick-view">
-                    //                         + Xem ngay
-                    //                     </Link>
-                    //                 </li>
-                    //             </ul>
-                    //         </div>
-                    //         <div className="pi-text">
-                    //             <div className="category-name">{item.category_name}</div>
-                    //             <a href="#">
-                    //                 <h5>{item.product_name}</h5>
-                    //             </a>
-                    //             <div className="product-price">
-                    //                 <span>{formatPrice(item.price_old)}</span>
-                    //                 {formatPrice(item.price)}
-                    //             </div>
-                    //         </div>
-                    //     </div>
-                    // </Carousel>
+                    <div className="product-item item w-[180px] mr-3" key={j}>
+                        <div className="pi-pic">
+                            <img src={item.img} alt="" className="h-[225px]" />
+                            <div className="sale">Sale</div>
+                            <div className="icon">
+                                <i className="icon_heart_alt">❤️</i>
+                            </div>
+                            <ul className="flex m-auto">
+                                <li className="w-icon active"><a href="#"><i><SlHandbag /></i></a></li>
+                                <li className="">
+                                    <Link to="" className="-mt-1 quick-view">
+                                        + Xem ngay
+                                    </Link>
+                                </li>
+                            </ul>
+                        </div>
+                        <div className="pi-text">
+                            <div className="category-name">{item.category_name}</div>
+                            <a href="#">
+                                <h5>{item.product_name}</h5>
+                            </a>
+                            <div className="product-price">
+                                <span>{formatPrice(item.price_old)}</span>
+                                {formatPrice(item.price)}
+                            </div>
+                        </div>
+                    </div>
                 )
             });
             tabPanels.push(tabPanel);
-            // console.log(tabPanels);
         });
         return (
-            <Tabs className="w-3/4">
+            <Tabs className="w-3/4 pl-20">
                 <TabList className="filter-control">{tabList} </TabList>
                 {tabPanels.map((item, key) => (
                     <TabPanel key={key} className="">
-                        <div className="flex">{item}</div>
+                        <Carousel responsive={responsive} className="w-3/4 product-slider owl-carousel women flex mx-auto">
+                            {item}
+                        </Carousel>
                     </TabPanel>
                 ))}
             </Tabs>
@@ -415,7 +414,7 @@ const Home = () => {
             <div className="mt-14 flex mx-10">
                 <div className="w-2/6 max-h-[400px]">
                     <div className="women-banner">
-                        <img src={anh4} alt="" className="h-[400px]" />
+                        <img src={anh4} alt="" className="h-[400px] w-full" />
                         <div className="inner-text text-center">
                             <h2>Thời trang nữ</h2>
                         </div>
@@ -426,9 +425,9 @@ const Home = () => {
                         </div>
                     </div>
                 </div>
-                <div className="w-3/4">
-                {/* {renderFeatProducts(featProducts)} */}
-                <div className="filter-control">
+                {/* <div className="w-3/4"> */}
+                {renderFeatProducts(featProducts)}
+                {/* <div className="filter-control">
                         <ul>
                             <li className="item active" data-tag="*" data-category="women">Tất cả</li>
                             <li className="item" data-tag=".Clothing" data-category="women">Quần áo</li>
@@ -436,9 +435,9 @@ const Home = () => {
                             <li className="item" data-tag=".Shoes" data-category="women">Giày</li>
                             <li className="item" data-tag=".Accessories" data-category="women">Phụ kiện</li>
                         </ul>
-                    </div>
+                    </div> */}
                 {/* <div className="product-slider owl-carousel women flex"> */}
-                <Carousel responsive={responsive} className="w-3/4 product-slider owl-carousel women flex mx-auto">
+                {/* <Carousel responsive={responsive} className="w-3/4 product-slider owl-carousel women flex mx-auto">
                         {sliderItems.map((item, index) => (
                             <div className="product-item item w-[95%] mx-auto">
                                 <div className="pi-pic">
@@ -469,7 +468,7 @@ const Home = () => {
                             </div>
                         ))}
                     </Carousel>
-                </div>
+                </div> */}
                 {/* <div className="product-slider owl-carousel women flex">
                         <div className="mt-24 mr-14 text-slate-400"><MdKeyboardArrowLeft className="text-6xl" /></div>
                         <div className="product-item item w-1/5 mr-14">

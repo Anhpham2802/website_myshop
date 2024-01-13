@@ -323,11 +323,11 @@
 	text-align: center;
 	padding-top: 15px;
 }
-/* .react-multi-carousel-item {
+.react-multi-carousel-item {
     transform-style: preserve-3d;
     backface-visibility: hidden;
     width: 100% !important;
-} */
+}
 .product-item .pi-text .category-name {
 	font-size: 10px;
 	color: #b2b2b2;
