@@ -1,0 +1,10 @@
+Django
+djangorestframework
+python-dotenv
+mysql-connector-python
+django-cors-headers
+cryptography
+pymysql
+django-jazzmin
+djangorestframework-simplejwt
+djoser
