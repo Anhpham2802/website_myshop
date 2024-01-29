@@ -1,8 +1,14 @@
 import { Outlet } from "react-router-dom";
 import Footer from "./footer"
 import Header from "./header"
+import { useEffect } from "react";
+import { login } from "../../api"
 
 const Layout = ({children, ...props}) => {
+    useEffect(() => {
+        login({"email": "t@gmail.com", "password": "1"});
+    }, []);
+
     return (
         <div {...props}>
             <Header />

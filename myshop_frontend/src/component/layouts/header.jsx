@@ -7,8 +7,18 @@ import { FaInstagram, FaPinterestP } from "react-icons/fa";
 import { SlSocialTwitter } from "react-icons/sl";
 import { BsTelephone } from "react-icons/bs";
 import { FaRegCircleUser } from "react-icons/fa6";
+import { client } from "../../api";
 
 const Header = () => {
+
+    const getUserInfo = () => {
+        client.get("/auth/users/me/").then((res) => {
+            console.log(res.data);
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+
     return (
         <>
             <div className="w-11/12 h-[500] m-auto">
@@ -37,7 +47,7 @@ const Header = () => {
                                     </div>
                                 </div>
                                 <FaRegCircleUser className="my-[15px] ml-4" />
-                                <p className="m-2.5">Login</p>
+                                <p className="m-2.5" onClick={getUserInfo}>Login</p>
                             </div>
                         </div>
                     </div>
