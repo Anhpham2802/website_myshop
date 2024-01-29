@@ -1,11 +1,15 @@
 import './product.css';
 import React from 'react';
+import { CiHeart } from "react-icons/ci";
 import nam2 from "../../../assets/users/1.5.jpg";
 import anh1 from "../../../assets/users/1.1.jpg";
+import MenuHeader from '../../../component/layouts/menu_header';
+import Counter from '../../../component/counter';
 
 const ProductDetail = () => {
     return (
         <div>
+            <MenuHeader />
             <div className="product-container">
                 <div className="product-sidebar w-1/5">
                     <h2>Danh mục</h2>
@@ -43,7 +47,10 @@ const ProductDetail = () => {
                         </div>
                         <div className="product-content-right">
                             <div className="product-content-right-name">
-                                <h1>ten san pham</h1>
+                                <div className='flex'>
+                                    <h1>ten san pham</h1>
+                                    <CiHeart className='w-1/3 mt-2 font-bold text-2xl' />
+                                </div>
                                 <p>MSP : 123456</p>
                             </div>
                             <div className='flex mt-2'>
@@ -51,7 +58,7 @@ const ProductDetail = () => {
                                     <p>Giá</p>
                                     <p className='mt-3'>Màu sắc</p>
                                     <p className='mt-3'>Chất liệu</p>
-                                    <p className='mt-3'>Size</p>
+                                    <p className='mt-3'>Kích thước</p>
                                     <p className='my-3'>Thương hiệu</p>
                                 </div>
                                 <div className='ml-5'>
@@ -66,10 +73,11 @@ const ProductDetail = () => {
                             {/* @if($productDetail[0]->quantity > 0) */}
                             <div className="product-quantity">
                                 <p className='font-bold'>Số lượng : </p>
-                                <input type="number" minLength="1" defaultValue="1" maxLength="10" />
+                                <div className='ml-8 -mt-2.5'><Counter /></div>
+                                {/* <input type="number" minLength="1" defaultValue="1" maxLength="10" /> */}
                             </div>
                             <div className="mt-10 text-center product-content-right-button">
-                                <a href="cart.html">ADD TO CART</a>
+                                <a href="cart.html">THÊM GIỎ HÀNG</a>
                             </div>
                             {/* @else */}
                             <div className="mt-10 text-center product-content-right-button">

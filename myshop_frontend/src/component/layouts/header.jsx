@@ -8,6 +8,7 @@ import { SlSocialTwitter } from "react-icons/sl";
 import { BsTelephone } from "react-icons/bs";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { client } from "../../api";
+import { Link } from "react-router-dom";
 
 const Header = () => {
 
@@ -24,7 +25,8 @@ const Header = () => {
             <div className="w-11/12 h-[500] m-auto">
                 <div className="border-b-[1px] border-b-slate-200">
                     <div className="w-11/12 m-auto pb-0.5 flex flex-row">
-                        <a href="/" className=" w-[10%] float-start mr-5 my-auto"><img src={myshop} alt=""/></a>
+                        <Link to="/" className=" w-[10%] float-start mr-5 my-auto"><img src={myshop} alt=""/></Link>
+                        {/* <a href="/" className=" w-[10%] float-start mr-5 my-auto"><img src={myshop} alt=""/></a> */}
                         <div className="w-full h-12 flex flex-row justify-between">
                             <div className="flex flex-row">
                                 <div className="border-r-[1px] border-r-slate-200">
