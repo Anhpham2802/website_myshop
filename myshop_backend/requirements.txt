@@ -7,4 +7,4 @@ cryptography
 pymysql
 django-jazzmin
 djangorestframework-simplejwt
-djoser
+Pillow
