@@ -2,13 +2,13 @@ import React from "react";
 import MenuHeader from "../../../component/layouts/menu_header";
 import PaginatedItems from "../../../component/pagination/pagination";
 
-const WomenProduct = () => {
+const Store = () => {
     return (
         <div className="mb-20">
             <MenuHeader />
             <div className="border-t-[1px] border-dashed mt-10 w-2/5 mx-auto">   </div>
             <div className="text-center mt-5">
-                <p className="text-3xl font-serif">TRANG PHỤC CHO NỮ</p>
+                <p className="text-3xl font-serif">CỬA HÀNG CỦA CHÚNG TÔI</p>
                 <p className="text-[13px] text-[#555]">(121 sản phẩm)</p>
                 <p className="text-[13px] text-[#555] w-4/5 mx-auto">
                     Phong cách của bạn là gì? Bạn là người tối giản và thích những món đồ cơ bản,
@@ -21,4 +21,4 @@ const WomenProduct = () => {
         </div>
     );
 };
-export default WomenProduct;
+export default Store;

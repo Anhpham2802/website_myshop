@@ -1,0 +1,60 @@
+.pagination {
+    color: #444;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    line-height: 26px;
+    font-weight: 400;
+    letter-spacing: .02em;
+}
+
+.pagination-main {
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    min-height: 250px;
+    position: relative;
+    margin: 0 -8px;
+}
+
+.pagination-product {
+    text-align: left;
+    display: block;
+    width: 250px;
+    height: auto;
+    position: relative;
+    margin: 0 8px 30px;
+}
+
+.pagination-img {
+    transition: all .1s ease-in-out;
+    touch-action: manipulation;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+    color: #444;
+}
+
+.pagination-img .sale {
+    color: #ffffff;
+    font-size: 10px;
+    background: #76BC42;
+    position: absolute;
+    left: 0;
+    top: 5px;
+    padding: 1px 8px;
+    text-transform: uppercase;
+}
+
+.pagination-img .icon {
+    font-size: 20px;
+    /* color: #252525; */
+    position: absolute;
+    right: 3px;
+    top: -15px;
+    cursor: pointer;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+    opacity: 0;
+}

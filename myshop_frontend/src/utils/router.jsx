@@ -1,6 +1,6 @@
 export const ROUTERS = {
     USER: {
-        HOME: "",
+        HOME: "/",
         PRODUCT: "/product/:id",
         STORE: "/store",
         LIKED: "/liked",
@@ -8,11 +8,14 @@ export const ROUTERS = {
         HISTORY_CART: "/history_cart",
         CONTACT: "/contact",
         WOMEN: "/women",
-        MAN: "/man",
+        MEN: "/men",
         KID: "/kid",
         QUANAO: "/clothes",
         TUI_BALO: "/bag_balo",
         GIAY_DEP: "/footwear",
         PHU_KIEN: "/accessory",
+    },
+    ADMIN: {
+        DASHBOARD: "/dashboard",
     }
 }
