@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./style.css";
 import myshop from "../../assets/users/myshop.png";
 import { MdOutlineMarkEmailUnread } from "react-icons/md";
@@ -7,29 +7,28 @@ import { FaInstagram, FaPinterestP } from "react-icons/fa";
 import { SlSocialTwitter } from "react-icons/sl";
 import { BsTelephone } from "react-icons/bs";
 import { FaRegCircleUser } from "react-icons/fa6";
-import { client } from "../../api";
+import { client, logout } from "../../api";
 
 import { Link } from "react-router-dom";
 
 import { DownOutlined } from '@ant-design/icons';
 import { Dropdown } from 'antd';
 import { Space } from 'antd';
+import { verifyToken } from "../../api";
 
 const Header = () => {
 
-    const getUserInfo = () => {
-        client.get("/auth/users/me/").then((res) => {
-            console.log(res.data);
-        }).catch((err) => {
-            console.log(err);
-        });
-    }
+    useEffect(() => {
+        if (localStorage.getItem('refresh_token') != null) {
+            verifyToken();
+        }
+    }, []);
 
     const items = [
         {
             key: '1',
             label: (
-                <p className=''>Logout</p>
+                <p className='' onClick={logout}>Logout</p>
             ),
         },
     ]
@@ -63,17 +62,21 @@ const Header = () => {
                                     </div>
                                 </div>
                                 <FaRegCircleUser className="my-[15px] ml-4" />
-                                <Link to="/login" className="m-2.5" onClick={getUserInfo}>Login</Link>
 
-                                {/* sau khi dang nhap */}
-                                <Link to="/profile" className="m-2.5">username</Link>
-                                <Dropdown menu={{ items, }} trigger={['click']} className='my-auto border-[1px] rounded-full w-[25px] h-[25px] pl-1.5'>
-                                    <a onClick={(e) => e.preventDefault()}>
-                                        <Space>
-                                            <DownOutlined className='w-[10px]' />
-                                        </Space>
-                                    </a>
-                                </Dropdown>
+                                {localStorage.getItem('refresh_token') == null ? (
+                                    <Link to="/login" className="m-2.5">Login</Link>
+                                ) : (
+                                    <>
+                                        <Link to="/profile" className="m-2.5">{localStorage.getItem('full_name')}</Link>
+                                        <Dropdown menu={{ items, }} trigger={['click']} className='my-auto border-[1px] rounded-full w-[25px] h-[25px] pl-1.5'>
+                                            <a onClick={(e) => e.preventDefault()}>
+                                                <Space>
+                                                    <DownOutlined className='w-[10px]' />
+                                                </Space>
+                                            </a>
+                                        </Dropdown>
+                                    </>
+                                )}
 
                             </div>
                         </div>

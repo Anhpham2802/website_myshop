@@ -3,16 +3,37 @@ import { MailOutlined, LockOutlined } from '@ant-design/icons';
 import React from 'react';
 import MenuHeader from '../layouts/menu_header';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { login } from '../../api';
 
 const Login = () => {
+    const handleLogin = async (data) => {
+        // Send request to server
+        const response = await toast.promise(
+            login(data),
+            {
+                pending: 'Đang đăng nhập...',
+                success: {
+                render(){
+                    setTimeout(() => {
+                        window.location.href = '/';
+                    }, 3000);
+                    return `Đăng nhập thành công! Bạn sẽ được chuyển hướng về trang chủ sau 3 giây.`;
+                },
+                // other options
+                icon: "🟢",
+                },
+                error: 'Đăng nhập thất bại! Vui lòng kiểm tra lại thông tin.'
+            }
+        );
+    };
+
     return (
         <div>
             <MenuHeader />
             <Form
                 name='normal_login'
-                className="w-2/5 mx-auto mt-20"
-            // form={form}
-            // onFinish={onFinish}
+                onFinish={handleLogin}
             >
                 <p className='mb-2'>Nhập email</p>
                 <Form.Item
@@ -40,8 +61,8 @@ const Login = () => {
                         },
                     ]}
                 >
-                    <Input
-                        prefix={<LockOutlined className='site-form-item-icon h-8' />}
+                    <Input.Password
+                        prefix={<LockOutlined className='site-form-item-icon' />}
                         type='password'
                         placeholder='Mật khẩu'
                         required

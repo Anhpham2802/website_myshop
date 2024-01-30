@@ -1,13 +1,8 @@
 import axios from "axios";
 import { camelizeKeys } from "humps";
 
-export const REFRESH_KEY = "refresh";
-export const ACCESS_KEY = "access";
-
-export const logout = () => {
-  localStorage.removeItem(REFRESH_KEY);
-  localStorage.removeItem(ACCESS_KEY);
-};
+export const REFRESH_KEY = "refresh_token";
+export const ACCESS_KEY = "access_token";
 
 let isRefreshing = false;
 
@@ -50,7 +45,7 @@ client.interceptors.response.use(
         console.log("refreshing token!");
         isRefreshing = true;
 
-        const response = await fetch(`${BASE_URL}/auth/jwt/refresh/`, {
+        const response = await fetch(`${BASE_URL}/api/refresh_token`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

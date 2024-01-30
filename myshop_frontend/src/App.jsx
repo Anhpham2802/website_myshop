@@ -1,4 +1,5 @@
 import './App.css'
+import 'react-toastify/dist/ReactToastify.css';
 import { BrowserRouter } from 'react-router-dom';
 import RouterCustom from './router';
 
