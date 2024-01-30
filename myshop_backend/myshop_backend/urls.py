@@ -15,11 +15,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.contrib.staticfiles.urls import static
 from django.conf import settings
+from rest_framework_swagger.views import get_swagger_view
+
+schema_view = get_swagger_view(title='Webshop API')
 
 urlpatterns = [
+    re_path(r'^$', schema_view),
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),
 ]

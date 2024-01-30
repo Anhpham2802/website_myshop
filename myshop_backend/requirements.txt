@@ -8,3 +8,4 @@ pymysql
 django-jazzmin
 djangorestframework-simplejwt
 Pillow
+django-rest-swagger

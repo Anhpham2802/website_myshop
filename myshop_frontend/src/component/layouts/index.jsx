@@ -1,16 +1,23 @@
 import Footer from "./footer"
-// import Header from "./header"
-import Header from "../admin/header"
-import { useEffect } from "react";
-import { login } from "../../api"
+import Header from "./header"
+import { ToastContainer } from 'react-toastify';
 
-const Layout = ({ children, ...props }) => {
-    useEffect(() => {
-        login({ "email": "t@gmail.com", "password": "1" });
-    }, []);
-
+const Layout = ({children, ...props}) => {
     return (
         <div {...props}>
+            <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss={false}
+                draggable
+                pauseOnHover={false}
+                theme="light"
+            />
+            <ToastContainer />
             <Header />
             <main>
                 <div className="w-11/12 h-fit m-auto">
