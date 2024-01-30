@@ -49,7 +49,7 @@ const Header = () => {
                                     </div>
                                 </div>
                                 <FaRegCircleUser className="my-[15px] ml-4" />
-                                <p className="m-2.5" onClick={getUserInfo}>Login</p>
+                                <Link to="/login" className="m-2.5" onClick={getUserInfo}>Login</Link>
                             </div>
                         </div>
                     </div>

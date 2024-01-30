@@ -7,10 +7,11 @@ import WomenProduct from "./pages/users/products/women_product";
 import KidProduct from "./pages/users/products/kid_product";
 import MenProduct from "./pages/users/products/men_product";
 import Cart from "./pages/users/cart";
-import Counter from "./component/counter";
 import Liked from "./pages/users/liked";
 import Store from "./pages/users/store/store";
 import Sidebar from "./component/admin/sidebar";
+import Login from "./component/login/login";
+import Register from "./component/login/register";
 
 const renderUserRouter = () => {
     const userRouter = [
@@ -58,6 +59,8 @@ const renderUserRouter = () => {
                 {userRouter.map((item, key) => (
                     <Route key={key} path={item.path} element={item.component} />
                 ))}
+                <Route path={ROUTERS.LOGIN} element={<Login />} />
+                <Route path={ROUTERS.REGISTER} element={<Register />} />
             </Routes>
         </Layout>
     )

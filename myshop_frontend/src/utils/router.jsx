@@ -17,5 +17,7 @@ export const ROUTERS = {
     },
     ADMIN: {
         DASHBOARD: "/dashboard",
-    }
+    },
+    LOGIN: "/login",
+    REGISTER: "/register",
 }
