@@ -1,21 +1,22 @@
 import Footer from "./footer"
 import Header from "./header"
+// import Header from "../admin/header"
 import { useEffect } from "react";
 import { login } from "../../api"
 
-const Layout = ({children, ...props}) => {
+const Layout = ({ children, ...props }) => {
     useEffect(() => {
-        login({"email": "t@gmail.com", "password": "1"});
+        login({ "email": "t@gmail.com", "password": "1" });
     }, []);
 
     return (
         <div {...props}>
             <Header />
-             <main>
+            <main>
                 <div className="w-11/12 h-fit m-auto">
                     {children}
                 </div>
-             </main>
+            </main>
             <Footer />
         </div>
     );

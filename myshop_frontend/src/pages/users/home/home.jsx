@@ -226,7 +226,7 @@ const Home = () => {
         <div>
             <SlideShow />
             <MenuHeader />
-            <div className="flex flex-row w-11/12 m-auto">
+            {/* <div className="flex flex-row w-11/12 m-auto">
                 <div className="flex flex-row my-5 xl:w-2/5 m-auto justify-between">
                     <div className="relative mb-4 flex w-full flex-wrap items-stretch">
                         <input
@@ -249,7 +249,7 @@ const Home = () => {
                     </Link>
                     <span className="cart-icon">3</span>
                 </div>
-            </div>
+            </div> */}
             {/* content */}
             <div className="flex container m-auto">
                 {/* head content */}
