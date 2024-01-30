@@ -1,6 +1,6 @@
 import Footer from "./footer"
-import Header from "./header"
-// import Header from "../admin/header"
+// import Header from "./header"
+import Header from "../admin/header"
 import { useEffect } from "react";
 import { login } from "../../api"
 

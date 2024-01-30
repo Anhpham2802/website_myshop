@@ -1,10 +1,4 @@
 import React from "react";
-import myshop from "../../assets/users/myshop.png";
-import { MdOutlineMarkEmailUnread } from "react-icons/md";
-import { LuFacebook } from "react-icons/lu";
-import { FaInstagram, FaPinterestP } from "react-icons/fa";
-import { SlSocialTwitter } from "react-icons/sl";
-import { BsTelephone } from "react-icons/bs";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { client } from "../../api";
 
