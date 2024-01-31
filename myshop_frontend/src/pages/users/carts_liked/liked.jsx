@@ -297,10 +297,10 @@ const Liked = () => {
                                             min={1}
                                             max={10}
                                             defaultValue={1}
-                                            className='py-1.5 border-[1px] border-[#cac9c7] focus:border-[#949392] hover:border-[#949392]'
+                                            className='py-1.5 w-[25%] border-[1px] border-[#cac9c7] focus:border-[#949392] hover:border-[#949392]'
                                         ></Input>
                                     </Form.Item>
-                                    <Button type='' htmlType='submit' className='w-full mt-2 bg-[#e7ab3c] text-white font-semibold text-[15px]'>
+                                    <Button type='' htmlType='submit' className='w-full mt-2 bg-[#6b7c88] text-white font-semibold text-[15px]'>
                                         Thêm giỏ hàng
                                         {/* <LuSearch className="text-yellow-500 text-xl" /> */}
                                     </Button>

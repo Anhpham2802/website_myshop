@@ -15,6 +15,9 @@ import Register from "./component/login/register";
 import FootwearProduct from "./pages/users/products/footwear";
 import AccessoryProduct from "./pages/users/products/accessory";
 import BagBaloProduct from "./pages/users/products/bagBalo";
+import HistoryCart from "./pages/users/carts_liked/history";
+import Checkout from "./pages/users/carts_liked/checkout";
+import Profile from "./pages/users/profile";
 
 const renderUserRouter = () => {
     const userRouter = [
@@ -55,12 +58,24 @@ const renderUserRouter = () => {
             component: <Cart />,
         },
         {
+            path: ROUTERS.USER.HISTORY_CART,
+            component: <HistoryCart />,
+        },
+        {
             path: ROUTERS.USER.LIKED,
             component: <Liked />,
         },
         {
             path: ROUTERS.USER.STORE,
             component: <Store />,
+        },
+        {
+            path: ROUTERS.USER.CHECKOUT,
+            component: <Checkout />,
+        },
+        {
+            path: ROUTERS.USER.PROFILE,
+            component: <Profile />,
         },
         {
             path: ROUTERS.ADMIN.DASHBOARD,

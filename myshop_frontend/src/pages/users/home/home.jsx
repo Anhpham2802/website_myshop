@@ -226,31 +226,7 @@ const Home = () => {
         <div>
             <SlideShow />
             <MenuHeader />
-            {/* <div className="flex flex-row w-11/12 m-auto">
-                <div className="flex flex-row my-5 xl:w-2/5 m-auto justify-between">
-                    <div className="relative mb-4 flex w-full flex-wrap items-stretch">
-                        <input
-                            type="search"
-                            className="relative m-0 -mr-0.5 block w-[1px] min-w-0 flex-auto rounded-l border border-solid px-3 py-[0.25rem] text-base font-normal leading-[1.6] outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-500 focus:shadow-[inset_0_0_0_1px_rgb(234,179,8)] focus:outline-none dark:border-slate-200 dark:text-neutral-600 dark:placeholder:text-neutral-400 dark:focus:border-amber-400"
-                            placeholder="Bạn cần gì ❣️"
-                            aria-label="Search"
-                            aria-describedby="button-addon1" />
-                        <button type="submit"><FaSearch className="ml-5 m-2.5 text-yellow-500" /></button>
-                    </div>
-                </div>
-
-                <div className="flex flex-row m-2.5 heart-icon float-right">
-                    <Link to="/liked">
-                        <FaRegHeart className="ml-[15px] text-lg my-5" />
-                    </Link>
-                    <span>1</span>
-                    <Link to="/cart">
-                        <FaOpencart className="ml-3 text-xl my-5" />
-                    </Link>
-                    <span className="cart-icon">3</span>
-                </div>
-            </div> */}
-            {/* content */}
+            
             <div className="flex container m-auto">
                 {/* head content */}
                 <div className="flex m-auto h-[250px] mt-5">

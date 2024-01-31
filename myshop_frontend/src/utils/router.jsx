@@ -10,10 +10,10 @@ export const ROUTERS = {
         WOMEN: "/women",
         MEN: "/men",
         KID: "/kid",
-        QUANAO: "/clothes",
         TUI_BALO: "/bag_balo",
         GIAY_DEP: "/footwear",
         PHU_KIEN: "/accessory",
+        CHECKOUT: "/checkout",
     },
     ADMIN: {
         DASHBOARD: "/dashboard",
