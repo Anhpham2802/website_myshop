@@ -37,6 +37,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "nested_inline",
     'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -165,3 +166,23 @@ SIMPLE_JWT = {
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True
 }
+
+#-------------------------------AWS----------------------------
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+MAX_PRODUCT_FILE_SIZE_MB = 4
+MAX_AVATAR_IMAGE_SIZE_MB = 4
+AWS_STORAGE_BUCKET_NAME = "myshop"
+S3_ACCOUNT_ID = "568005a208613eac412ce3bc97a41285"
+AWS_S3_ACCESS_KEY_ID = "9bc574e71c961979b6ac6a3a34528b06"
+AWS_S3_SECRET_ACCESS_KEY = "ae0db7fdbd21841853e2b90903036c5c7c5291f1651f00fa9eae7c3170649eb0"
+AWS_S3_SIGNATURE_VERSION = 's3v4'
+AWS_S3_ENDPOINT_URL = f'https://{S3_ACCOUNT_ID}.r2.cloudflarestorage.com'
+S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
+# s3 avatar settings
+DEFAULT_PROFILE_AVATAR = "https://pub-38e38475c1124183b8f41ebbfbb0aab8.r2.dev/default.jpg"
+AVATAR_LOCATION = 'avatar'
+AVATAR_STORAGE = 'api.storage_backends.AvatarStorage'
+
+# s3 product images settings
+PRODUCT_LOCATION = 'product'
+PRODUCT_STORAGE = 'api.storage_backends.ProductStorage'
