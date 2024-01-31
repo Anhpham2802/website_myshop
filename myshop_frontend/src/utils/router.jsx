@@ -1,12 +1,12 @@
 export const ROUTERS = {
     USER: {
         HOME: "/",
+        PROFILE: "/profile",
         PRODUCT: "/product/:id",
         STORE: "/store",
         LIKED: "/liked",
         CART: "/cart",
         HISTORY_CART: "/history_cart",
-        CONTACT: "/contact",
         WOMEN: "/women",
         MEN: "/men",
         KID: "/kid",

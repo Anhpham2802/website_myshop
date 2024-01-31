@@ -8,6 +8,7 @@ import anh5 from "../../../assets/users/1.4.jpg";
 import anh4 from "../../../assets/users/1.5.jpg";
 import "./style.css"
 
+import { FaXmark } from "react-icons/fa6";
 import { LuSearch } from "react-icons/lu";
 import { Form, Input, Button } from 'antd';
 import Select from 'react-select'
@@ -273,7 +274,7 @@ const Liked = () => {
                                 </Link>
                                 <div className={item.sale === null ? "" : "sale"}>{item.sale}</div>
                                 <div className="icon">
-                                    <i className="icon_heart_alt">❤️</i>
+                                    <i className="icon_heart_alt"><FaXmark className='rounded-full bg-white px-1 py-1'/></i>
                                 </div>
                                 <Link to="/product/:id">
                                     <p className='mt-2 h-[55px] font-sans font-normal overflow-hidden'>{item.product_name}</p>
@@ -286,10 +287,10 @@ const Liked = () => {
                                     <Form.Item>
                                         <Select options={options} placeholder="Kích thước" className='focus:border-[#949392] hover:border-[#949392]' />
                                     </Form.Item>
-                                    <Form.Item className='-mt-3' >
+                                    <Form.Item className='-mt-5' >
                                         <Select options={options} placeholder="Màu sắc" className='focus:border-[#949392] hover:border-[#949392]' />
                                     </Form.Item>
-                                    <Form.Item className='-mt-3'>
+                                    <Form.Item className='-mt-5 -mb-1'>
                                         <Input
                                             type='number'
                                             placeholder='1'
@@ -299,7 +300,7 @@ const Liked = () => {
                                             className='py-1.5 border-[1px] border-[#cac9c7] focus:border-[#949392] hover:border-[#949392]'
                                         ></Input>
                                     </Form.Item>
-                                    <Button type='' htmlType='submit' className='w-full bg-[#e7ab3c] -mt-3 text-white font-semibold text-[15px]'>
+                                    <Button type='' htmlType='submit' className='w-full mt-2 bg-[#e7ab3c] text-white font-semibold text-[15px]'>
                                         Thêm giỏ hàng
                                         {/* <LuSearch className="text-yellow-500 text-xl" /> */}
                                     </Button>

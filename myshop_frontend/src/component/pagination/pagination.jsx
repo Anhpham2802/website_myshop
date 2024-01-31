@@ -16,7 +16,7 @@ import anh4 from "../../assets/users/bianho4.png";
 import anh3 from "../../assets/users/1.3.jpg";
 import anh5 from "../../assets/users/myshop.png";
 
-
+import { CiHeart } from "react-icons/ci";
 import "./pagination.css";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -270,7 +270,7 @@ function Items({ currentItems }) {
                                 </Link>
                                 <div className={item.sale === null ? "" : "sale"}>{item.sale}</div>
                                 <div className="icon">
-                                    <i className="icon_heart_alt">❤️</i>
+                                    <i className="icon_heart_alt"><CiHeart className='rounded-full bg-white px-1 py-1'/></i>
                                 </div>
                                 <Link to="/product/:id">
                                     <p className='mt-2 h-[55px] font-sans font-normal overflow-hidden'>{item.product_name}</p>

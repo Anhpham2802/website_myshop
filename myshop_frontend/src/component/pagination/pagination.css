@@ -47,11 +47,12 @@
 }
 
 .pagination-img .icon {
-    font-size: 20px;
-    /* color: #252525; */
+    color: #f16081;
+    font-size: 30px !important;
+    font-weight: bold !important;
     position: absolute;
-    right: 3px;
-    top: -15px;
+    right: 15px !important;
+    top: 50px;
     cursor: pointer;
     -webkit-transition: all 0.3s;
     -o-transition: all 0.3s;
@@ -60,22 +61,45 @@
 }
 
 .heart-icon span {
-	position: absolute;
-	/* right: 8px;
+    position: absolute;
+    /* right: 8px;
 	top: -1px; */
-	margin-left: 10px;
-	top: 307px;
-	height: 14px;
-	width: 14px;
-	background: #e7ab3c;
-	color: #ffffff;
-	border-radius: 50%;
-	font-size: 10px;
-	font-weight: 700;
-	text-align: center;
-	line-height: 15px;
+    margin-left: 10px;
+    top: 307px;
+    height: 14px;
+    width: 14px;
+    background: #e7ab3c;
+    color: #ffffff;
+    border-radius: 50%;
+    font-size: 10px;
+    font-weight: 700;
+    text-align: center;
+    line-height: 15px;
 }
 
 .cart-icon {
-	margin-left: 42px !important;
+    margin-left: 42px !important;
 }
+
+.pagination-img:hover .icon {
+    top: 3px;
+    opacity: 1;
+}
+
+/*
+.icon{
+    overflow: hidden;
+	position: relative;
+} */
+/* .icon .icon_heart_alt {
+	font-size: 20px;
+	color: #252525;
+	position: absolute;
+	right: 3px;
+	top: -15px;
+	cursor: pointer;
+	-webkit-transition: all 0.3s;
+	-o-transition: all 0.3s;
+	transition: all 0.3s;
+	opacity: 0;
+} */

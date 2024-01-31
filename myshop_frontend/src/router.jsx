@@ -12,6 +12,9 @@ import Store from "./pages/users/store/store";
 import Sidebar from "./component/admin/sidebar";
 import Login from "./component/login/login";
 import Register from "./component/login/register";
+import FootwearProduct from "./pages/users/products/footwear";
+import AccessoryProduct from "./pages/users/products/accessory";
+import BagBaloProduct from "./pages/users/products/bagBalo";
 
 const renderUserRouter = () => {
     const userRouter = [
@@ -34,6 +37,18 @@ const renderUserRouter = () => {
         {
             path: ROUTERS.USER.MEN,
             component: <MenProduct />,
+        },
+        {
+            path: ROUTERS.USER.GIAY_DEP,
+            component: <FootwearProduct />,
+        },
+        {
+            path: ROUTERS.USER.PHU_KIEN,
+            component: <AccessoryProduct />,
+        },
+        {
+            path: ROUTERS.USER.TUI_BALO,
+            component: <BagBaloProduct />,
         },
         {
             path: ROUTERS.USER.CART,

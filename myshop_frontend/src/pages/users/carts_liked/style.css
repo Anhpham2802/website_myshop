@@ -47,11 +47,12 @@
 }
 
 .pagination-img .icon {
-    font-size: 20px;
-    /* color: #252525; */
+    color: #f16081;
+    font-size: 25px !important;
+    font-weight: bold !important;
     position: absolute;
-    right: 3px;
-    top: -15px;
+    right: 15px !important;
+    top: 50px;
     cursor: pointer;
     -webkit-transition: all 0.3s;
     -o-transition: all 0.3s;

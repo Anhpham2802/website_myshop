@@ -26,35 +26,6 @@ const Store = () => {
                     Bất kẻ bạn đang theo đuổi phong cách thẩm mỹ nào, bộ sưu tập váy, áo sơ mi, quần jean, quần dài và váy của chúng tôi chính là thứ bạn đang tìm kiếm.
                 </p>
                 <p className="text-[13px] text-[#555]">. . .</p>
-
-                {/* <div className="flex flex-row w-11/12 m-auto">
-                    <Form name='search' className="flex m-auto mt-3">
-                        <Form.Item name='' className="w-[500px]">
-                            <Input
-                                // prefix={<UserOutlined className='site-form-item-icon' />}
-                                placeholder='Bạn cần gì ❣️'
-                                className=" focus:border-yellow-500 hover:border-yellow-500"
-                            />
-                        </Form.Item>
-                        <Form.Item>
-                            <Button type='' htmlType='submit' className=''>
-                                <LuSearch className="text-yellow-500 text-xl" />
-                            </Button>
-                        </Form.Item>
-                    </Form>
-
-                    <div className="flex flex-row heart-icon float-right">
-                        <Link to="/liked">
-                            <FaRegHeart className="text-lg my-5" />
-                        </Link>
-                        <span>1</span>
-                        <Link to="/cart">
-                            <FaOpencart className="ml-3 text-xl my-5" />
-                        </Link>
-                        <span className="cart-icon">3</span>
-                    </div>
-
-                </div> */}
                 <PaginatedItems itemsPerPage={20} />
             </div>
         </div>

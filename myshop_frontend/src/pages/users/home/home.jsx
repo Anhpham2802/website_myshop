@@ -182,7 +182,7 @@ const Home = () => {
                             <img src={item.img} alt="" className="h-[225px]" />
                             <div className="sale">Sale</div>
                             <div className="icon">
-                                <i className="icon_heart_alt text-white"><CiHeart /></i>
+                                <i className="icon_heart_alt text-red-500"><CiHeart /></i>
                             </div>
                             <ul className="flex m-auto">
                                 <li className="w-icon active"><a href="#"><i><SlHandbag /></i></a></li>
