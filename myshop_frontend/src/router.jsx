@@ -9,7 +9,7 @@ import MenProduct from "./pages/users/products/men_product";
 import Cart from "./pages/users/carts_liked/cart";
 import Liked from "./pages/users/carts_liked/liked";
 import Store from "./pages/users/store/store";
-import Sidebar from "./component/admin/sidebar";
+import AdminLayout from "./component/admin";
 import Login from "./component/login/login";
 import Register from "./component/login/register";
 import FootwearProduct from "./pages/users/products/footwear";
@@ -18,6 +18,7 @@ import BagBaloProduct from "./pages/users/products/bagBalo";
 import HistoryCart from "./pages/users/carts_liked/history";
 import Checkout from "./pages/users/carts_liked/checkout";
 import Profile from "./pages/users/profile";
+import ProtectedRoute from "./component/ProtectedRoute";
 
 const renderUserRouter = () => {
     const userRouter = [
@@ -70,29 +71,29 @@ const renderUserRouter = () => {
             component: <Store />,
         },
         {
-            path: ROUTERS.USER.CHECKOUT,
-            component: <Checkout />,
+            path: ROUTERS.LOGIN,
+            component: <Login />,
         },
         {
-            path: ROUTERS.USER.PROFILE,
-            component: <Profile />,
-        },
-        {
-            path: ROUTERS.ADMIN.DASHBOARD,
-            component: <Sidebar />,
-        },
+            path: ROUTERS.REGISTER,
+            component: <Register />,
+        }
     ]
 
     return (
-        <Layout>
-            <Routes>
-                {userRouter.map((item, key) => (
-                    <Route key={key} path={item.path} element={item.component} />
-                ))}
-                <Route path={ROUTERS.LOGIN} element={<Login />} />
-                <Route path={ROUTERS.REGISTER} element={<Register />} />
-            </Routes>
-        </Layout>
+        <Routes>
+            <Route exact path='/' element={<Layout />}>
+                {userRouter.map((item, key) => {
+                    if (item.path === '/') {
+                        return <Route index key={key} element={item.component} />
+                    }
+                    else return <Route key={key} path={item.path} element={item.component} />
+                })}
+            </Route>
+            <Route element={<ProtectedRoute />}>
+                <Route path='/admin' element={<AdminLayout />} />
+            </Route>
+        </Routes>
     )
 }
 

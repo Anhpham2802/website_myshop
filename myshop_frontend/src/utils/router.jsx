@@ -16,7 +16,7 @@ export const ROUTERS = {
         CHECKOUT: "/checkout",
     },
     ADMIN: {
-        DASHBOARD: "/dashboard",
+        DASHBOARD: "/admin",
     },
     LOGIN: "/login",
     REGISTER: "/register",
