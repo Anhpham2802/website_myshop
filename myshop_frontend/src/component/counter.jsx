@@ -23,9 +23,9 @@ const Counter = () => {
     return (
         <div>
             <div className="flex">
-                <button className="text-4xl px-2 mr-3" onClick={handleClick2}>-</button>
+                <button className="text-4xl px-2 mr-3 hover:text-[#e7ab3c]" onClick={handleClick2}>-</button>
                 <div className="mt-2.5">{counter}</div>
-                <button className="text-3xl px-2 ml-3" onClick={handleClick1}>+</button>
+                <button className="text-3xl px-2 ml-3 hover:text-[#e7ab3c]" onClick={handleClick1}>+</button>
             </div>
         </div>
     );

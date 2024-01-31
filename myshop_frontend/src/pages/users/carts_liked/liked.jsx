@@ -1,28 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
-import ReactPaginate from 'react-paginate';
-import formatPrice from "../../utils/formater";
-
-import { FaRegHeart, FaOpencart } from "react-icons/fa";
-import { Form, Input, Button } from 'antd';
-import { LuSearch } from "react-icons/lu";
-// import { DownOutlined } from '@ant-design/icons';
-// import { Dropdown } from 'antd';
-// import { Space } from 'antd';
-
-import anh1 from "../../assets/users/1.1.jpg";
-import anh2 from "../../assets/users/1.2.jpg";
-import anh4 from "../../assets/users/bianho4.png";
-import anh3 from "../../assets/users/1.3.jpg";
-import anh5 from "../../assets/users/myshop.png";
-
-
-import "./pagination.css";
+import React from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
-import Filter from '../filter/filter';
+import MenuHeader from '../../../component/layouts/menu_header';
+import anh1 from "../../../assets/users/1.1.jpg";
+import anh2 from "../../../assets/users/1.2.jpg";
+import anh3 from "../../../assets/users/1.3.jpg";
+import anh5 from "../../../assets/users/1.4.jpg";
+import anh4 from "../../../assets/users/1.5.jpg";
+import "./style.css"
 
-// Example items, to simulate fetching from another resources.
+import { LuSearch } from "react-icons/lu";
+import { Form, Input, Button } from 'antd';
+import Select from 'react-select'
+import Counter from '../../../component/counter';
+import formatPrice from "../../../utils/formater";
+import { RiDeleteBin5Line } from "react-icons/ri";
+
 const items = [
     {
         img: anh1,
@@ -256,15 +248,26 @@ const items = [
     },
 ];
 
+const options = [
+    { value: 'chocolate', label: 'Chocolate' },
+    { value: 'strawberry', label: 'Strawberry' },
+    { value: 'vanilla', label: 'Vanilla' }
+]
 
-function Items({ currentItems }) {
+const Liked = () => {
     return (
-        <>
-            {currentItems &&
-                currentItems.map((item) => (
-                    <div>
+        <div>
+            <MenuHeader />
+            <div className="mt-10 mx-auto">
+                <div className='border-t-[1px] border-dashed w-2/5 mx-auto'></div>
+                <div className="text-center mt-5">
+                    <p className="text-2xl font-serif">Danh sách yêu thích của bạn</p>
+                    <p className="text-[13px] text-[#555]">. . .</p>
+                </div>
+                <div className='pagination pagination-main mt-4'>
+                    {items.map((item) => (
                         <div className='pagination-product'>
-                            <div className='pagination-img h-[375px]'>
+                            <div className='pagination-img h-fit'>
                                 <Link to="/product/:id">
                                     <img src={item.img} alt="" className="h-[300px] w-[240px]" />
                                 </Link>
@@ -279,127 +282,36 @@ function Items({ currentItems }) {
                                     <span className='font-semibold text-[#f79217]'>{formatPrice(item.price)}</span>
                                     <span className='text-[#888] line-through ml-2 text-xs mt-1'>{formatPrice(item.price_old)}</span>
                                 </div>
+                                <Form name='' className="mt-2">
+                                    <Form.Item>
+                                        <Select options={options} placeholder="Kích thước" className='focus:border-[#949392] hover:border-[#949392]' />
+                                    </Form.Item>
+                                    <Form.Item className='-mt-3' >
+                                        <Select options={options} placeholder="Màu sắc" className='focus:border-[#949392] hover:border-[#949392]' />
+                                    </Form.Item>
+                                    <Form.Item className='-mt-3'>
+                                        <Input
+                                            type='number'
+                                            placeholder='1'
+                                            min={1}
+                                            max={10}
+                                            defaultValue={1}
+                                            className='py-1.5 border-[1px] border-[#cac9c7] focus:border-[#949392] hover:border-[#949392]'
+                                        ></Input>
+                                    </Form.Item>
+                                    <Button type='' htmlType='submit' className='w-full bg-[#e7ab3c] -mt-3 text-white font-semibold text-[15px]'>
+                                        Thêm giỏ hàng
+                                        {/* <LuSearch className="text-yellow-500 text-xl" /> */}
+                                    </Button>
+                                </Form>
                             </div>
                         </div>
-                    </div>
-                ))
-            }
-        </>
-    );
-}
-
-function PaginatedItems({ itemsPerPage }) {
-    //filter
-    // const [records, setRecords] = useState([]);
-    /*const [data, setData] = useState([]);
-    const [search, setSearch] = useState([]);
-    useEffect(() => {
-        axios.get('')
-            .then(res => {
-                setData(res.data)
-                setSearch(res.data);
-            })
-            .catch(err => console.log(err))
-    }, [])
-
-    const Filter = (e) => {
-        setSearch(data.filter(f => f.product_name.toLowerCase().includes(e.target.value)))
-    } */
-
-    // Here we use item offsets; we could also use page offsets
-    // following the API or data you're working with.
-    const [itemOffset, setItemOffset] = useState(0);
-
-    // Simulate fetching items from another resources.
-    // (This could be items from props; or items loaded in a local state
-    // from an API endpoint with useEffect and useState)
-    const endOffset = itemOffset + itemsPerPage;
-    console.log(`Loading items from ${itemOffset} to ${endOffset}`);
-    const currentItems = items.slice(itemOffset, endOffset);
-    const pageCount = Math.ceil(items.length / itemsPerPage);
-
-    // Invoke when user click to request another page.
-    const handlePageClick = (event) => {
-        const newOffset = (event.selected * itemsPerPage) % items.length;
-        console.log(
-            `User requested page number ${event.selected}, which is offset ${newOffset}`
-        );
-        setItemOffset(newOffset);
-    };
-
-    return (
-        <div>
-            <div className="flex flex-row w-11/12 m-auto">
-                <Form name='search' className="flex m-auto mt-3">
-                    <Form.Item name='' className="w-[500px]">
-                        <Input
-                            // prefix={<UserOutlined className='site-form-item-icon' />}
-                            placeholder='Bạn cần gì ❣️'
-                            className=" focus:border-yellow-500 hover:border-yellow-500"
-                        // onChange={Filter}
-                        />
-                    </Form.Item>
-                    <Form.Item>
-                        <Button type='' htmlType='submit' className=''>
-                            <LuSearch className="text-yellow-500 text-xl" />
-                        </Button>
-                    </Form.Item>
-                </Form>
-
-                <div className="flex flex-row heart-icon float-right">
-                    <Link to="/liked">
-                        <FaRegHeart className="text-lg my-5" />
-                    </Link>
-                    <span>1</span>
-                    <Link to="/cart">
-                        <FaOpencart className="ml-3 text-xl my-5" />
-                    </Link>
-                    <span className="cart-icon">3</span>
+                    ))}
                 </div>
 
-            </div>
-
-            <Filter />
-            {/* <div className="flex mt-10 mb-5 text-[#6b7c88] text-sm">
-                <div className='w-[15%] flex border-y-[1px] py-1.5'>
-                    <p className='pr-28 pl-3'>Màu sắc</p>
-                    <Dropdown menu={{ filter1, }} trigger={['click']} className=''>
-                        <div onClick={(e) => e.preventDefault()}>
-                            <Space>
-                                <DownOutlined className='w-[10px]' />
-                            </Space>
-                        </div>
-                    </Dropdown>
-                </div>
-
-                <div className='w-[10%]'>1
-                </div>
-                <div className='w-[10%]'>1
-                </div>
-            </div> */}
-            <div className='pagination pagination-main mt-4'>
-                <Items currentItems={currentItems} />
-                <br />
-                <div className='mt-5'>
-                    <ReactPaginate
-                        breakLabel="..."
-                        nextLabel="next >"
-                        onPageChange={handlePageClick}
-                        pageRangeDisplayed={5}
-                        pageCount={pageCount}
-                        previousLabel="< previous"
-                        renderOnZeroPageCount={null}
-                        className='flex'
-                    />
-                </div>
             </div>
         </div>
-    );
+    )
 }
 
-export default PaginatedItems;
-// Add a <div id="container"> to your HTML to see the component rendered.
-// ReactDOM.render(
-//   <PaginatedItems itemsPerPage={4} />,
-//   document.getElementById('container')
-// );
+export default Liked;

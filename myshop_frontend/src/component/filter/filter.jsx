@@ -1,6 +1,5 @@
 import React from 'react';
 import 'react-dropdown/style.css';
-import Select from "react-select"
 import FilterColor from './color';
 import FilterPrice from './price';
 import FilterSize from './size';
