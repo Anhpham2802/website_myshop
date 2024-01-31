@@ -9,9 +9,10 @@ import MenProduct from "./pages/users/products/men_product";
 import Cart from "./pages/users/cart";
 import Liked from "./pages/users/liked";
 import Store from "./pages/users/store/store";
-import Sidebar from "./component/admin/sidebar";
+import AdminLayout from "./component/admin";
 import Login from "./component/login/login";
 import Register from "./component/login/register";
+import ProtectedRoute from "./component/ProtectedRoute";
 
 const renderUserRouter = () => {
     const userRouter = [
@@ -48,21 +49,29 @@ const renderUserRouter = () => {
             component: <Store />,
         },
         {
-            path: ROUTERS.ADMIN.DASHBOARD,
-            component: <Sidebar />,
+            path: ROUTERS.LOGIN,
+            component: <Login />,
         },
+        {
+            path: ROUTERS.REGISTER,
+            component: <Register />,
+        }
     ]
 
     return (
-        <Layout>
-            <Routes>
-                {userRouter.map((item, key) => (
-                    <Route key={key} path={item.path} element={item.component} />
-                ))}
-                <Route path={ROUTERS.LOGIN} element={<Login />} />
-                <Route path={ROUTERS.REGISTER} element={<Register />} />
-            </Routes>
-        </Layout>
+        <Routes>
+            <Route exact path='/' element={<Layout />}>
+                {userRouter.map((item, key) => {
+                    if (item.path === '/') {
+                        return <Route index key={key} element={item.component} />
+                    }
+                    else return <Route key={key} path={item.path} element={item.component} />
+                })}
+            </Route>
+            <Route element={<ProtectedRoute />}>
+                <Route path='/admin' element={<AdminLayout />} />
+            </Route>
+        </Routes>
     )
 }
 

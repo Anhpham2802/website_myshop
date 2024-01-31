@@ -16,7 +16,7 @@ export const ROUTERS = {
         PHU_KIEN: "/accessory",
     },
     ADMIN: {
-        DASHBOARD: "/dashboard",
+        DASHBOARD: "/admin",
     },
     LOGIN: "/login",
     REGISTER: "/register",
