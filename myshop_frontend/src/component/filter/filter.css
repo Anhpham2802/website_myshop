@@ -1,0 +1,14 @@
+/* .ant-dropdown.css-dev-only-do-not-override-dkbvqv.ant-dropdown-placement-bottomLeft {
+    width: max-content;
+} */
+
+:where(.css-dev-only-do-not-override-dkbvqv).ant-dropdown .ant-dropdown-menu,
+:where(.css-dev-only-do-not-override-dkbvqv).ant-dropdown-menu-submenu .ant-dropdown-menu {
+    padding: 5px;
+    box-shadow: none !important;
+}
+
+.ant-dropdown-menu-title-content {
+    color: #6b7c88;
+    padding: 1px 2px;
+}

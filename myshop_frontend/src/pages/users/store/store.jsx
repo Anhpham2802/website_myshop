@@ -1,12 +1,15 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
+import { Link } from "react-router-dom";
+import "./store.css";
+import axios from "axios";
+
+
 import MenuHeader from "../../../component/layouts/menu_header";
 import PaginatedItems from "../../../component/pagination/pagination";
-import { FaRegHeart, FaOpencart } from "react-icons/fa";
-import { Link } from "react-router-dom";
-import { Form, Input, Button } from 'antd';
-import { LuSearch } from "react-icons/lu";
-import "../home/home.css";
 
+// import { FaRegHeart, FaOpencart } from "react-icons/fa";
+// import { Form, Input, Button } from 'antd';
+// import { LuSearch } from "react-icons/lu";
 
 const Store = () => {
     return (
@@ -24,8 +27,8 @@ const Store = () => {
                 </p>
                 <p className="text-[13px] text-[#555]">. . .</p>
 
-                <div className="flex flex-row w-11/12 m-auto">
-                    <Form name='search' className="flex m-auto ">
+                {/* <div className="flex flex-row w-11/12 m-auto">
+                    <Form name='search' className="flex m-auto mt-3">
                         <Form.Item name='' className="w-[500px]">
                             <Input
                                 // prefix={<UserOutlined className='site-form-item-icon' />}
@@ -51,7 +54,7 @@ const Store = () => {
                         <span className="cart-icon">3</span>
                     </div>
 
-                </div>
+                </div> */}
                 <PaginatedItems itemsPerPage={20} />
             </div>
         </div>

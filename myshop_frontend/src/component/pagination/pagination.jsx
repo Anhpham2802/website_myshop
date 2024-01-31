@@ -1,15 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import ReactPaginate from 'react-paginate';
+import formatPrice from "../../utils/formater";
+
+import { FaRegHeart, FaOpencart } from "react-icons/fa";
+import { Form, Input, Button } from 'antd';
+import { LuSearch } from "react-icons/lu";
+// import { DownOutlined } from '@ant-design/icons';
+// import { Dropdown } from 'antd';
+// import { Space } from 'antd';
+
 import anh1 from "../../assets/users/1.1.jpg";
 import anh2 from "../../assets/users/1.2.jpg";
 import anh4 from "../../assets/users/bianho4.png";
 import anh3 from "../../assets/users/1.3.jpg";
 import anh5 from "../../assets/users/myshop.png";
-import formatPrice from "../../utils/formater";
+
 
 import "./pagination.css";
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import Filter from '../filter/filter';
 
 // Example items, to simulate fetching from another resources.
 const items = [
@@ -245,6 +256,7 @@ const items = [
     },
 ];
 
+
 function Items({ currentItems }) {
     return (
         <>
@@ -274,6 +286,23 @@ function Items({ currentItems }) {
 }
 
 function PaginatedItems({ itemsPerPage }) {
+    //filter
+    // const [records, setRecords] = useState([]);
+    /*const [data, setData] = useState([]);
+    const [search, setSearch] = useState([]);
+    useEffect(() => {
+        axios.get('')
+            .then(res => {
+                setData(res.data)
+                setSearch(res.data);
+            })
+            .catch(err => console.log(err))
+    }, [])
+
+    const Filter = (e) => {
+        setSearch(data.filter(f => f.product_name.toLowerCase().includes(e.target.value)))
+    } */
+
     // Here we use item offsets; we could also use page offsets
     // following the API or data you're working with.
     const [itemOffset, setItemOffset] = useState(0);
@@ -297,14 +326,54 @@ function PaginatedItems({ itemsPerPage }) {
 
     return (
         <div>
-            <div className="flex mt-16">
-                <button className='w-[10%]'>1
-                </button>
-                <button className='w-[10%]'>1
-                </button>
-                <button className='w-[10%]'>1
-                </button>
+            <div className="flex flex-row w-11/12 m-auto">
+                <Form name='search' className="flex m-auto mt-3">
+                    <Form.Item name='' className="w-[500px]">
+                        <Input
+                            // prefix={<UserOutlined className='site-form-item-icon' />}
+                            placeholder='Bạn cần gì ❣️'
+                            className=" focus:border-yellow-500 hover:border-yellow-500"
+                        // onChange={Filter}
+                        />
+                    </Form.Item>
+                    <Form.Item>
+                        <Button type='' htmlType='submit' className=''>
+                            <LuSearch className="text-yellow-500 text-xl" />
+                        </Button>
+                    </Form.Item>
+                </Form>
+
+                <div className="flex flex-row heart-icon float-right">
+                    <Link to="/liked">
+                        <FaRegHeart className="text-lg my-5" />
+                    </Link>
+                    <span>1</span>
+                    <Link to="/cart">
+                        <FaOpencart className="ml-3 text-xl my-5" />
+                    </Link>
+                    <span className="cart-icon">3</span>
+                </div>
+
             </div>
+
+            <Filter />
+            {/* <div className="flex mt-10 mb-5 text-[#6b7c88] text-sm">
+                <div className='w-[15%] flex border-y-[1px] py-1.5'>
+                    <p className='pr-28 pl-3'>Màu sắc</p>
+                    <Dropdown menu={{ filter1, }} trigger={['click']} className=''>
+                        <div onClick={(e) => e.preventDefault()}>
+                            <Space>
+                                <DownOutlined className='w-[10px]' />
+                            </Space>
+                        </div>
+                    </Dropdown>
+                </div>
+
+                <div className='w-[10%]'>1
+                </div>
+                <div className='w-[10%]'>1
+                </div>
+            </div> */}
             <div className='pagination pagination-main mt-4'>
                 <Items currentItems={currentItems} />
                 <br />
