@@ -383,13 +383,13 @@ function PaginatedItems({ itemsPerPage }) {
                 <div className='mt-5'>
                     <ReactPaginate
                         breakLabel="..."
-                        nextLabel="next >"
+                        nextLabel=">"
                         onPageChange={handlePageClick}
                         pageRangeDisplayed={5}
                         pageCount={pageCount}
-                        previousLabel="< previous"
+                        previousLabel="<"
                         renderOnZeroPageCount={null}
-                        className='flex'
+                        className='flex next-item-mysefl'
                     />
                 </div>
             </div>
