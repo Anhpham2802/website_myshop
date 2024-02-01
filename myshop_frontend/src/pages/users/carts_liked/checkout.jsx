@@ -4,7 +4,7 @@ import { Button, Form, Input, Select } from 'antd';
 import axios from "axios";
 // import "https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
 
-{/* <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script> */}
+{/* <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script> */ }
 const citis = document.getElementById('city');
 const districts = document.getElementById("district");
 const wards = document.getElementById("ward");
@@ -60,33 +60,77 @@ const Checkout = () => {
             </div>
             <Form >
                 <div className="mx-auto w-2/3 text-[#444] mt-2">
-                    <Form.Item>
+                    <Form.Item
+                    name='password'
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Vui lòng nhập số điện thoại!',
+                        },
+                    ]}
+                    >
                         <p>Số điện thoại</p>
                         <Input
-                            type="tel"
+                            type="number"
+                            min={100000000}
+                            max={999999999}
                             name="phone"
                             placeholder="Nhập số điện thoại"
                             className="w-2/4 h-[40px] border-[1px] border-[#cac6c6] mt-1 mb-2"
-                            required
                         >
                         </Input>
                     </Form.Item>
 
                     <p className="mb-2">Địa chỉ</p>
                     <div className="w-1/2">
-                        <Form.Item id="city">
+                        <Form.Item id="city"
+                        name='password'
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Vui lòng chọn tỉnh thành!',
+                            },
+                        ]}>
                             <Select className="h-10" placeholder="Chọn tỉnh thành">
-                                <Select.Option value="" selected></Select.Option>
+                                <Select.Option value="" selected required></Select.Option>
                             </Select>
                         </Form.Item>
-                        <Form.Item>
+                        <Form.Item
+                        name='password'
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Vui lòng chọn quận huyện!',
+                            },
+                        ]}>
                             <Select className="h-10 " id="district" placeholder="Chọn quận huyện">
-                                <Select.Option value="" selected></Select.Option>
+                                <Select.Option value="" selected required></Select.Option>
                             </Select>
                         </Form.Item>
-                        <Form.Item>
+                        <Form.Item
+                        name='password'
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Vui lòng chọn phường xã!',
+                            },
+                        ]}>
                             <Select className="h-10 " id="ward" placeholder="Chọn phường xã">
-                                <Select.Option value="" selected></Select.Option>
+                                <Select.Option value="" selected required></Select.Option>
+                            </Select>
+                        </Form.Item>
+                        <p className="mb-2">Phương thức thanh toán</p>
+                        <Form.Item
+                        name='password'
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Vui lòng phương thức thanh toán!',
+                            },
+                        ]}>
+                            <Select className="h-10 ">
+                                <Select.Option value="1" selected required> Thanh toán trực tuyến </Select.Option>
+                                <Select.Option value="2" selected required> Tiền mặt </Select.Option>
                             </Select>
                         </Form.Item>
                     </div>
@@ -111,12 +155,10 @@ const Checkout = () => {
                             required
                         >
                         </Input> */}
-                    <p>Số điện thoại</p>
-                    <p className="flex mb-10">Sinh nhật : <span className="text-[14px] mt-0.5 ml-5">28 / 02 / 2001</span> </p>
 
                     {/* <Link to="" className=" w-fit px-5 py-2 text-white font-medium rounded-sm bg-[#6b7c88] hover:bg-[#7b8a94]">Sửa thông tin</Link> */}
-                    <Button type='' htmlType='submit' className='mt-2 h-[45px] w-2/4 bg-[#6b7c88] text-white font-semibold text-[17px] hover:bg-[#7b8a94]'>
-                        Thêm giỏ hàng
+                    <Button type='primary' htmlType="submit" className='mt-2 h-[45px] w-2/4 bg-[#6b7c88] text-white font-semibold text-[17px] hover:bg-[#7b8a94]'>
+                        Đặt hàng
                     </Button>
                 </div>
             </Form>
