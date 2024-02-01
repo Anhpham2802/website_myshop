@@ -2,7 +2,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
-from .models import User
+from .models import *
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
@@ -49,3 +49,48 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.save()
 
         return user
+
+class AttributeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Attribute
+        fields = ('name', )
+
+class BrandsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Brands
+        fields = ('name',)
+
+class ProductCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductCategory
+        fields = ('name',)
+
+class ProductVariationAttributeSerializer(serializers.ModelSerializer):
+    attr = serializers.ReadOnlyField(source='attribute.name')
+    # value = serializers.ReadOnlyField(source='value')
+
+    class Meta:
+        model = ProductVariationAttribute
+        fields = '__all__'
+
+class ProductVariationImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductVariationImage
+        fields = ('image',)
+
+class ProductVariationSerializer(serializers.ModelSerializer):
+    images = ProductVariationImageSerializer(many=True)
+    product_variation_attributes = ProductVariationAttributeSerializer(many=True)
+
+    class Meta:
+        model = ProductVariation
+        fields = '__all__'
+
+class ProductSerializer(serializers.ModelSerializer):
+    product_variations = ProductVariationSerializer(many=True)
+    category = ProductCategorySerializer()
+    brand = BrandsSerializer()
+
+    class Meta:
+        model = Product
+        fields = '__all__'

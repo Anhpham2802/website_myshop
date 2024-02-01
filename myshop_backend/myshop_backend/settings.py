@@ -37,7 +37,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    "nested_inline",
+    'nested_inline',
     'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -177,6 +177,7 @@ AWS_S3_ACCESS_KEY_ID = "9bc574e71c961979b6ac6a3a34528b06"
 AWS_S3_SECRET_ACCESS_KEY = "ae0db7fdbd21841853e2b90903036c5c7c5291f1651f00fa9eae7c3170649eb0"
 AWS_S3_SIGNATURE_VERSION = 's3v4'
 AWS_S3_ENDPOINT_URL = f'https://{S3_ACCOUNT_ID}.r2.cloudflarestorage.com'
+AWS_S3_CUSTOM_DOMAIN = "pub-38e38475c1124183b8f41ebbfbb0aab8.r2.dev"
 S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
 # s3 avatar settings
 DEFAULT_PROFILE_AVATAR = "https://pub-38e38475c1124183b8f41ebbfbb0aab8.r2.dev/default.jpg"

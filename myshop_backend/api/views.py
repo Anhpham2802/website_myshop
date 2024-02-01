@@ -5,8 +5,8 @@ from rest_framework.views import APIView
 from rest_framework import generics
 from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.views import TokenObtainPairView
-from .models import User
-from .serializer import MyTokenObtainPairSerializer, RegisterSerializer
+from .models import *
+from .serializer import *
 from rest_framework_simplejwt.tokens import RefreshToken, OutstandingToken, BlacklistedToken
 
 @api_view(['GET'])
@@ -39,3 +39,11 @@ class LogoutView(APIView):
         token = RefreshToken(token=refresh_token)
         token.blacklist()
         return Response({"status": "OK, goodbye"}, status=204)
+
+class GetProductView(APIView):
+    permission_classes = (AllowAny,)
+    def get(self, request, *args, **kwargs):
+        product_id = self.kwargs['product_id']
+        product = Product.objects.get(id=product_id)
+        product_serializer = ProductSerializer(product)
+        return Response(product_serializer.data)

@@ -38,9 +38,9 @@ class User(AbstractUser):
 
             username = self.username
             file_ext = os.path.splitext(str(self.avatar.name))[-1]
-            self.avatar.name = f"user_image_{timestamp}{file_ext}"
+            self.avatar.name = f"{username}/user_image_{timestamp}{file_ext}"
             self.avatar.storage.location = \
-                f"{settings.AVATAR_LOCATION}/{username}"
+                f"{settings.AVATAR_LOCATION}"
         super().save(*args, **kwargs)
 
 class ProductCategory(models.Model):
@@ -72,6 +72,9 @@ class ProductVariationImage(models.Model):
     class Meta:
         verbose_name = 'Ảnh sản phẩm'
         verbose_name_plural = 'Ảnh sản phẩm'
+
+    def __str__(self) -> str:
+        return self.image.name
     
     def save(self, *args, **kwargs):
         if self.image:
@@ -81,9 +84,9 @@ class ProductVariationImage(models.Model):
             # you can use timestamp as a parameter for url
 
             file_ext = os.path.splitext(str(self.image.name))[-1]
-            self.image.name = f"product_image_{timestamp}{file_ext}"
+            self.image.name = f"{self.product_variation.product.id}/{self.product_variation.id}/product_image_{timestamp}{file_ext}"
             self.image.storage.location = \
-                f"{settings.PRODUCT_LOCATION}/{self.product_variation.product.id}/{self.product_variation.id}"
+                f"{settings.PRODUCT_LOCATION}"
         super().save(*args, **kwargs)
 
 @receiver(pre_save, sender=ProductVariationImage)
@@ -105,6 +108,7 @@ class Product(models.Model):
     numReviews = models.IntegerField(default=0)
     avg_rating = models.FloatField(default=0)
     main_variation = models.OneToOneField('ProductVariation', on_delete=models.CASCADE, null=True, blank=True, related_name='main_variation')
+    product_variations = models.ManyToManyField('ProductVariation', related_name='product_variations', blank=True, null=True)
 
     class Meta:
         verbose_name = 'Sản phẩm'
@@ -131,18 +135,19 @@ class ProductVariation(models.Model):
     discount_price = models.FloatField(null=True, blank=True)
     stock = models.IntegerField(default=0)
     sold = models.IntegerField(default=0)
-
+    images = models.ManyToManyField(ProductVariationImage, related_name='images', blank=True, null=True)
+    product_variation_attributes = models.ManyToManyField(Attribute, through='ProductVariationAttribute', related_name='product_variation_attributes', blank=True, null=True)
     class Meta:
         verbose_name = 'Biến thể sản phẩm'
         verbose_name_plural = 'Biến thể sản phẩm'
 
     def __str__(self) -> str:
-        return self.code
+        return f'{self.product.id} - {self.code}'
     
 class ProductVariationAttribute(models.Model):
-    product_variation = models.ForeignKey(ProductVariation, on_delete=models.CASCADE, related_name='product_variation_attribute')
+    product_variation = models.ForeignKey(ProductVariation, on_delete=models.CASCADE, related_name='product_variation_attribute', null=True, blank=True)
     attribute = models.ForeignKey(Attribute, on_delete=models.CASCADE, null=True, blank=True)
-    value = models.CharField(max_length=100, unique=True, null=True, blank=True)
+    value = models.CharField(max_length=100, null=True, blank=True)
     class Meta:
         verbose_name = 'Thuộc tính sản phẩm'
         verbose_name_plural = 'Thuộc tính sản phẩm'

@@ -10,6 +10,7 @@ class AvatarStorage(S3Boto3Storage):
                 'CacheControl': 'max-age=2592000'
             }
             return {**s3_object_params}
+
 class ProductStorage(S3Boto3Storage):
     location = settings.PRODUCT_LOCATION
     default_acl = 'public-read'
