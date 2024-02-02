@@ -66,12 +66,21 @@ class ProductCategorySerializer(serializers.ModelSerializer):
         fields = ('name',)
 
 class ProductVariationAttributeSerializer(serializers.ModelSerializer):
-    attr = serializers.ReadOnlyField(source='attribute.name')
-    # value = serializers.ReadOnlyField(source='value')
+    attribute = serializers.SerializerMethodField()
+    value = serializers.SerializerMethodField()
+    count = 0
 
     class Meta:
         model = ProductVariationAttribute
-        fields = '__all__'
+        fields = ('attribute', 'value')
+
+    def get_attribute(self, obj):
+        return obj.name
+
+    def get_value(self, obj):
+        product_variation_attributes =  ProductVariationAttribute.objects.filter(product_variation=self.context['product_variation_attribute'].id)
+        self.count += 1
+        return product_variation_attributes[self.count - 1].value
 
 class ProductVariationImageSerializer(serializers.ModelSerializer):
     class Meta:
@@ -79,12 +88,19 @@ class ProductVariationImageSerializer(serializers.ModelSerializer):
         fields = ('image',)
 
 class ProductVariationSerializer(serializers.ModelSerializer):
+    product_variation_attributes = serializers.SerializerMethodField()
     images = ProductVariationImageSerializer(many=True)
-    product_variation_attributes = ProductVariationAttributeSerializer(many=True)
 
     class Meta:
         model = ProductVariation
         fields = '__all__'
+
+    def get_product_variation_attributes(self, obj):
+        return ProductVariationAttributeSerializer(
+            obj.product_variation_attributes.all(),
+            many=True,
+            context={'product_variation_attribute': obj}
+        ).data
 
 class ProductSerializer(serializers.ModelSerializer):
     product_variations = ProductVariationSerializer(many=True)
