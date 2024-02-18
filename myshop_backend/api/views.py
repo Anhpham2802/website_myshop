@@ -47,3 +47,44 @@ class GetProductView(APIView):
         product = Product.objects.get(id=product_id)
         product_serializer = ProductSerializer(product)
         return Response(product_serializer.data)
+
+class GetIsLikedProductView(APIView):
+    permission_classes = (IsAuthenticated,)
+    def get(self, request, *args, **kwargs):
+        product_id = self.kwargs['product_id']
+        product = Product.objects.get(id=product_id)
+        is_liked = LikeProduct.objects.filter(user=request.user, product=product).exists()
+        return Response({'is_liked': is_liked})
+    
+class AddRemoveWishlistView(APIView):
+    permission_classes = (IsAuthenticated,)
+    def post(self, request, *args, **kwargs):
+        product_id = request.data['product_id']
+        if product_id is None:
+            return Response({'status': 'failed'})
+        
+        product = Product.objects.get(id=product_id)
+
+        if product is None:
+            return Response({'status': 'failed'})
+        
+        if request.data.get('remove_from_wishlist', None) is not None:
+            if LikeProduct.objects.filter(user=request.user, product=product).exists():
+                LikeProduct.objects.filter(user=request.user, product=product).delete()
+                return Response({'status': 'removed'})
+            else:
+                return Response({'status': 'failed'})
+
+        if LikeProduct.objects.filter(user=request.user, product=product).exists():
+            LikeProduct.objects.filter(user=request.user, product=product).delete()
+            return Response({'status': 'removed'})
+        else:
+            LikeProduct.objects.create(user=request.user, product=product)
+            return Response({'status': 'added'})
+
+class GetWishlistView(APIView):
+    permission_classes = (IsAuthenticated,)
+    def get(self, request, *args, **kwargs):
+        wishlist = LikeProduct.objects.filter(user=request.user)
+        wishlist_serializer = WishlistSerializer(wishlist, many=True)
+        return Response(wishlist_serializer.data)

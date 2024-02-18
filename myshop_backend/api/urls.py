@@ -13,4 +13,7 @@ urlpatterns = [
     path('register', views.RegisterView.as_view(), name='auth_register'),
     path('logout', views.LogoutView.as_view(), name='auth_logout'),
     path('product/<int:product_id>', views.GetProductView.as_view(), name='get_product'),
+    path('wishlist/<int:product_id>', views.GetIsLikedProductView.as_view(), name='is_liked_product'),
+    path('wishlist/add_remove', views.AddRemoveWishlistView.as_view(), name='add_remove_wishlist'),
+    path('wishlist', views.GetWishlistView.as_view(), name='get_wishlist'),
 ]

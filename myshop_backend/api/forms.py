@@ -2,7 +2,7 @@ from typing import Any
 from nested_inline.admin import NestedStackedInline
 from .models import *
 
-class ProductVariationImageForm(NestedStackedInline.form):
+class ProductImageForm(NestedStackedInline.form):
     def is_multipart(self) -> Any:
         return True
     
@@ -16,10 +16,10 @@ class ProductVariationImageForm(NestedStackedInline.form):
 
         return super().clean()
 
-class AddProductForm(NestedStackedInline.form):
+class ProductForm(NestedStackedInline.form):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-        self.fields['images'].queryset = ProductVariationImage.objects.filter(product_variation=self.instance)
+        self.fields['images'].queryset = ProductImage.objects.filter(product=self.instance)
 
     def is_multipart(self) -> Any:
         return True

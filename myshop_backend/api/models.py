@@ -65,8 +65,8 @@ class Brands(models.Model):
     def __str__(self) -> str:
         return self.name
     
-class ProductVariationImage(models.Model):
-    product_variation = models.ForeignKey('ProductVariation', on_delete=models.CASCADE)
+class ProductImage(models.Model):
+    product = models.ForeignKey('Product', on_delete=models.CASCADE)
     image = models.FileField(storage=ProductStorage(), null=True, blank=True)
 
     class Meta:
@@ -84,19 +84,19 @@ class ProductVariationImage(models.Model):
             # you can use timestamp as a parameter for url
 
             file_ext = os.path.splitext(str(self.image.name))[-1]
-            self.image.name = f"{self.product_variation.product.id}/{self.product_variation.id}/product_image_{timestamp}{file_ext}"
+            self.image.name = f"{self.product.id}/product_image_{timestamp}{file_ext}"
             self.image.storage.location = \
                 f"{settings.PRODUCT_LOCATION}"
         super().save(*args, **kwargs)
 
-@receiver(pre_save, sender=ProductVariationImage)
+@receiver(pre_save, sender=ProductImage)
 def delete_file_on_change(sender, instance, **kwargs):
     try:
-        old_instance = ProductVariationImage.objects.get(id=instance.id)
+        old_instance = ProductImage.objects.get(id=instance.id)
         if old_instance.image != instance.image:
             old_instance.image.delete(save=False)
 
-    except ProductVariationImage.DoesNotExist:
+    except ProductImage.DoesNotExist:
         return
 
 class Product(models.Model):
@@ -107,8 +107,13 @@ class Product(models.Model):
     numLikes = models.IntegerField(default=0)
     numReviews = models.IntegerField(default=0)
     avg_rating = models.FloatField(default=0)
-    main_variation = models.OneToOneField('ProductVariation', on_delete=models.CASCADE, null=True, blank=True, related_name='main_variation')
-    product_variations = models.ManyToManyField('ProductVariation', related_name='product_variations', blank=True, null=True)
+    code = models.CharField(max_length=100, unique=True)
+    origin_price = models.FloatField()
+    discount_price = models.FloatField(null=True, blank=True)
+    stock = models.IntegerField(default=0)
+    sold = models.IntegerField(default=0)
+    images = models.ManyToManyField(ProductImage, related_name='images', blank=True, null=True)
+    product_attributes = models.ManyToManyField('Attribute', through='ProductAttribute', related_name='product_attributes', blank=True, null=True)
 
     class Meta:
         verbose_name = 'Sản phẩm'
@@ -128,24 +133,8 @@ class Attribute(models.Model):
     def __str__(self) -> str:
         return self.name
     
-class ProductVariation(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='product_variation')
-    code = models.CharField(max_length=100, unique=True)
-    origin_price = models.FloatField()
-    discount_price = models.FloatField(null=True, blank=True)
-    stock = models.IntegerField(default=0)
-    sold = models.IntegerField(default=0)
-    images = models.ManyToManyField(ProductVariationImage, related_name='images', blank=True, null=True)
-    product_variation_attributes = models.ManyToManyField(Attribute, through='ProductVariationAttribute', related_name='product_variation_attributes', blank=True, null=True)
-    class Meta:
-        verbose_name = 'Biến thể sản phẩm'
-        verbose_name_plural = 'Biến thể sản phẩm'
-
-    def __str__(self) -> str:
-        return f'{self.product.id} - {self.code}'
-    
-class ProductVariationAttribute(models.Model):
-    product_variation = models.ForeignKey(ProductVariation, on_delete=models.CASCADE, related_name='product_variation_attribute', null=True, blank=True)
+class ProductAttribute(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='product_attribute', null=True, blank=True)
     attribute = models.ForeignKey(Attribute, on_delete=models.CASCADE, null=True, blank=True)
     value = models.CharField(max_length=100, null=True, blank=True)
     class Meta:
@@ -154,7 +143,6 @@ class ProductVariationAttribute(models.Model):
 
 class Rating(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    product_variation = models.ForeignKey(ProductVariation, on_delete=models.CASCADE, null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     rating = models.FloatField()
     review = models.TextField(null=True, blank=True)
@@ -173,7 +161,7 @@ class LikeProduct(models.Model):
 
 class CartDetails(models.Model):
     cart = models.ForeignKey('Cart', on_delete=models.CASCADE, related_name='CartDetails')
-    product_variation = models.ForeignKey(ProductVariation, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
     price = models.FloatField(default=0)
 

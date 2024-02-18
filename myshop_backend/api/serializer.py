@@ -13,7 +13,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['username'] = user.username
         token['email'] = user.email
         token['full_name'] = user.first_name + " " + user.last_name
-        token['role'] = 'admin' if user.is_superuser else 'user'
+        # token['role'] = 'admin' if user.is_superuser else 'user'
 
         return token
     
@@ -65,48 +65,48 @@ class ProductCategorySerializer(serializers.ModelSerializer):
         model = ProductCategory
         fields = ('name',)
 
-class ProductVariationAttributeSerializer(serializers.ModelSerializer):
+class ProductAttributeSerializer(serializers.ModelSerializer):
     attribute = serializers.SerializerMethodField()
     value = serializers.SerializerMethodField()
     count = 0
 
     class Meta:
-        model = ProductVariationAttribute
+        model = ProductAttribute
         fields = ('attribute', 'value')
 
     def get_attribute(self, obj):
         return obj.name
 
     def get_value(self, obj):
-        product_variation_attributes =  ProductVariationAttribute.objects.filter(product_variation=self.context['product_variation_attribute'].id)
-        self.count += 1
-        return product_variation_attributes[self.count - 1].value
+        product_attributes =  ProductAttribute.objects.filter(product=self.context['product_attributes'].id)
+        self.count = self.count + 1
+        return product_attributes[self.count - 1].value
 
-class ProductVariationImageSerializer(serializers.ModelSerializer):
+class ProductImageSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ProductVariationImage
+        model = ProductImage
         fields = ('image',)
 
-class ProductVariationSerializer(serializers.ModelSerializer):
-    product_variation_attributes = serializers.SerializerMethodField()
-    images = ProductVariationImageSerializer(many=True)
-
-    class Meta:
-        model = ProductVariation
-        fields = '__all__'
-
-    def get_product_variation_attributes(self, obj):
-        return ProductVariationAttributeSerializer(
-            obj.product_variation_attributes.all(),
-            many=True,
-            context={'product_variation_attribute': obj}
-        ).data
-
 class ProductSerializer(serializers.ModelSerializer):
-    product_variations = ProductVariationSerializer(many=True)
     category = ProductCategorySerializer()
     brand = BrandsSerializer()
+    images = ProductImageSerializer(many=True)
+    product_attributes = serializers.SerializerMethodField()
 
     class Meta:
         model = Product
         fields = '__all__'
+
+    def get_product_attributes(self, obj):
+        return ProductAttributeSerializer(
+            obj.product_attributes.all(),
+            many=True,
+            context={'product_attributes': obj}
+        ).data
+
+class WishlistSerializer(serializers.ModelSerializer):
+    product = ProductSerializer()
+
+    class Meta:
+        model = LikeProduct
+        fields = ('product',)

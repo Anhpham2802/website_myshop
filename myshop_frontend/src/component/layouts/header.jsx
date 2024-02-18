@@ -9,7 +9,7 @@ import { BsTelephone } from "react-icons/bs";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { logout } from "../../api";
 
-import { Link } from "react-router-dom";
+import { Link, redirect } from "react-router-dom";
 
 import { DownOutlined } from '@ant-design/icons';
 import { Button, Dropdown } from 'antd';
@@ -38,7 +38,7 @@ const Header = () => {
 
     if (localStorage.getItem('role') == 'admin') {
         items.unshift({
-            label: <Link to="/admin">Admin Panel</Link>,
+            label: <a href="http://localhost:8000/admin/">Admin Panel</a>,
             key: '/admin',
         });
     }
