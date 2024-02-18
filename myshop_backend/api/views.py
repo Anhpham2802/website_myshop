@@ -88,3 +88,53 @@ class GetWishlistView(APIView):
         wishlist = LikeProduct.objects.filter(user=request.user)
         wishlist_serializer = WishlistSerializer(wishlist, many=True)
         return Response(wishlist_serializer.data)
+    
+class GetProductByCategoryView(APIView):
+    permission_classes = (AllowAny,)
+    def get(self, request, *args, **kwargs):
+        category = request.query_params.get('category', None).lower()
+        # like sql in django
+        products = Product.objects.filter(category__name__icontains=category)
+        product_serializer = ProductSerializer(products, many=True)
+        return Response(product_serializer.data)
+
+class AddRemoveCartItemView(APIView):
+    permission_classes = (IsAuthenticated,)
+    def post(self, request, *args, **kwargs):
+        product_id = request.data['product_id']
+        if product_id is None:
+            return Response({'status': 'failed'})
+        
+        product = Product.objects.get(id=product_id)
+
+        if product is None:
+            return Response({'status': 'failed'})
+        
+        if request.data.get('add_to_cart', None) is not None:
+            if CartItem.objects.filter(user=request.user, product=product).exists():
+                cart_item = CartItem.objects.get(user=request.user, product=product)
+                cart_item.quantity += 1
+                cart_item.save()
+                return Response({'status': 'added'})
+            else:
+                CartItem.objects.create(user=request.user, product=product, quantity=1)
+                return Response({'status': 'added'})
+        
+        if request.data.get('remove', None) is not None:
+            if CartItem.objects.filter(user=request.user, product=product).exists():
+                CartItem.objects.filter(user=request.user, product=product).delete()
+                return Response({'status': 'removed'})
+            else:
+                return Response({'status': 'failed'})
+        
+        if request.data.get('increment', None) is not None:
+            cart_item = CartItem.objects.get(user=request.user, product=product)
+            cart_item.quantity += 1
+            cart_item.save()
+            return Response({'status': 'incremented'})
+        
+        if request.data.get('decrement', None) is not None:
+            cart_item = CartItem.objects.get(user=request.user, product=product)
+            cart_item.quantity -= 1
+            cart_item.save()
+            return Response({'status': 'decremented'})

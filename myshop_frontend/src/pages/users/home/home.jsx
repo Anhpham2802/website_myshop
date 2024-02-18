@@ -20,11 +20,64 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import "../../../component/layouts/style.css";
 import "./home.css";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import MenuHeader from "../../../component/layouts/menu_header";
+import { client } from "../../../api";
+import { toast } from "react-toastify";
 
 const Home = () => {
+    const [menProducts, setMenProducts] = useState([]);
+    const [womenProducts, setWomenProducts] = useState([]);
+    const [renderMenProducts, setRenderMenProducts] = useState(null);
+    const [renderWomenProducts, setRenderWomenProducts] = useState(null);
+    const navigate = useNavigate();
+
+    let womenFeatProducts = {
+        all: {
+            title: "Tất cả",
+            products: []
+        },
+        clothes: {
+            title: "Quần áo",
+            products: []
+        },
+        bag_balo: {
+            title: "Túi-Balo",
+            products: []
+        },
+        footwear: {
+            title: "Giày dép",
+            products: []
+        },
+        accessory: {
+            title: "Phụ kiện",
+            products: []
+        }
+    }
+
+    let menFeatProducts = {
+        all: {
+            title: "Tất cả",
+            products: []
+        },
+        clothes: {
+            title: "Quần áo",
+            products: []
+        },
+        bag_balo: {
+            title: "Túi-Balo",
+            products: []
+        },
+        footwear: {
+            title: "Giày dép",
+            products: []
+        },
+        accessory: {
+            title: "Phụ kiện",
+            products: []
+        }
+    }
 
     const featProducts = {
         all: {
@@ -142,6 +195,7 @@ const Home = () => {
             ]
         }
     }
+
     const responsive = {
         superLargeDesktop: {
             // the naming can be any, depends on you.
@@ -162,14 +216,101 @@ const Home = () => {
         }
     };
 
+    const addToCart = (product_id) => {
+        if (localStorage.getItem("refresh_token") === null) {
+            setTimeout(() => {
+                toast.error("Cần đăng nhập để thực hiện chức năng này");
+            }, 1000);
+            navigate('/login');
+        }
+        else {
+            client.post("/api/add_remove_cart_item", { product_id: product_id, add_to_cart: true})
+                .then(res => {
+                    toast.success("Thêm sản phẩm vào giỏ hàng thành công");
+                })
+                .catch(err => {
+                    toast.error("Thêm sản phẩm vào giỏ hàng thất bại");
+                });
+        }
+        }
+
+    useEffect(() => {
+        const fetchMenProducts = async () => {
+            try {
+                const res = await client.get("/api/product_by_category?category=men");
+                setMenProducts(res.data);
+            } catch (error) {
+                console.log("Failed", error);
+            }
+        }
+
+        const fetchWomenProducts = async () => {
+            try {
+                const res = await client.get("/api/product_by_category?category=women");
+                setWomenProducts(res.data);
+            } catch (error) {
+                console.log("Failed", error);
+            }
+        }
+
+        fetchMenProducts();
+        fetchWomenProducts();
+    }, []);
+
+    useEffect(() => {
+        if (menProducts.length > 0) {
+            menFeatProducts.all.products = menProducts;
+            menFeatProducts.clothes.products.splice(0, menFeatProducts.clothes.products.length);
+            menFeatProducts.bag_balo.products.splice(0, menFeatProducts.bag_balo.products.length);
+            menFeatProducts.footwear.products.splice(0, menFeatProducts.footwear.products.length);
+            menFeatProducts.accessory.products.splice(0, menFeatProducts.accessory.products.length);
+            for (let i = 0; i < menProducts.length; i++) {
+                if (menProducts[i].category.name.includes("QuanAo")) {
+                    menFeatProducts.clothes.products.push(menProducts[i]);
+                }
+                if (menProducts[i].category.name.includes("GiayDep")) {
+                    menFeatProducts.footwear.products.push(menProducts[i]);
+                }
+                if (menProducts[i].category.name.includes("PhuKien")) {
+                    menFeatProducts.accessory.products.push(menProducts[i]);
+                }
+                if (menProducts[i].category.name.includes("BaloTui")) {
+                    menFeatProducts.bag_balo.products.push(menProducts[i]);
+                }
+            }
+        }
+        if (womenProducts.length > 0) {
+            womenFeatProducts.all.products = womenProducts;
+            womenFeatProducts.clothes.products.splice(0, womenFeatProducts.clothes.products.length);
+            womenFeatProducts.bag_balo.products.splice(0, womenFeatProducts.bag_balo.products.length);
+            womenFeatProducts.footwear.products.splice(0, womenFeatProducts.footwear.products.length);
+            womenFeatProducts.accessory.products.splice(0, womenFeatProducts.accessory.products.length)
+            for (let i = 0; i < womenProducts.length; i++) {
+                if (womenProducts[i].category.name.includes("QuanAo")) {
+                    womenFeatProducts.clothes.products.push(womenProducts[i]);
+                }
+                if (womenProducts[i].category.name.includes("GiayDep")) {
+                    womenFeatProducts.footwear.products.push(womenProducts[i]);
+                }
+                if (womenProducts[i].category.name.includes("PhuKien")) {
+                    womenFeatProducts.accessory.products.push(womenProducts[i]);
+                }
+                if (womenProducts[i].category.name.includes("BaloTui")) {
+                    womenFeatProducts.bag_balo.products.push(womenProducts[i]);
+                }
+            }
+
+            setRenderMenProducts(renderFeatProducts(menFeatProducts));
+            setRenderWomenProducts(renderFeatProducts(womenFeatProducts));
+        }
+    }, [menProducts, womenProducts]);
+
     // lay du lieu tu api
     const renderFeatProducts = (data) => {
         const tabList = [];
         const tabPanels = [];
 
-        // console.log(data);
         Object.keys(data).forEach((key, index) => {
-            // console.log(key, index);
             tabList.push(
                 <Tab key={index}>{data[key].title}</Tab>
             );
@@ -179,28 +320,40 @@ const Home = () => {
                 tabPanel.push(
                     <div className="product-item item w-[180px] mr-3" key={j}>
                         <div className="pi-pic">
-                            <img src={item.img} alt="" className="h-[225px]" />
-                            <div className="sale">Sale</div>
+                            <img src={item.images[0].image} alt="" className="h-[225px]" />
+                            <div className={item.discountPrice === null ? "hidden" : "sale"}>Sale</div>
                             <div className="icon">
                                 <i className="icon_heart_alt text-red-500"><CiHeart /></i>
                             </div>
                             <ul className="flex m-auto">
-                                <li className="w-icon active"><a href="#"><i><SlHandbag /></i></a></li>
+                                <li className="w-icon active">
+                                    <i>
+                                        <SlHandbag className="cursor-pointer"
+                                            onClick={() => addToCart(item.id)}
+                                        />
+                                    </i>
+                                </li>
                                 <li className="">
-                                    <Link to="/product/:id" className="-mt-1 quick-view">
+                                    <Link to={`/product/${item.id}`} className="-mt-1 quick-view">
                                         + Xem ngay
                                     </Link>
                                 </li>
                             </ul>
                         </div>
                         <div className="pi-text">
-                            <div className="category-name">{item.category_name}</div>
-                            <a href="#">
-                                <h5>{item.product_name}</h5>
-                            </a>
+                            <div className="category-name">{item.category.name}</div>
+                            <Link to={`/product/${item.id}`}>
+                                <h5>{item.name}</h5>
+                            </Link>
                             <div className="product-price">
-                                <span>{formatPrice(item.price_old)}</span>
-                                {formatPrice(item.price)}
+                                {item.discountPrice !== null ? (
+                                    <>
+                                        <span>{formatPrice(item.originPrice)}</span>
+                                        {formatPrice(item.discountPrice)}
+                                    </>
+                                ) : (
+                                    <>{formatPrice(item.originPrice)}</>
+                                )}
                             </div>
                         </div>
                     </div>
@@ -208,6 +361,7 @@ const Home = () => {
             });
             tabPanels.push(tabPanel);
         });
+
         return (
             <Tabs className="w-3/4 pl-20">
                 <TabList className="filter-control">{tabList} </TabList>
@@ -273,7 +427,7 @@ const Home = () => {
                         </div>
                     </div>
                 </div>
-                {renderFeatProducts(featProducts)}
+                {renderWomenProducts}
             </div>
 
             {/* banner */}
@@ -294,8 +448,7 @@ const Home = () => {
 
             {/* men banner*/}
             <div className="mt-14 flex mx-10">
-
-                {renderFeatProducts(featProducts)}
+                {renderMenProducts}
                 <div className="w-2/6 max-h-[400px]">
                     <div className="women-banner ">
                         <img src={nam1} alt="" className="h-[400px] w-full" />

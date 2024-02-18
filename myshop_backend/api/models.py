@@ -159,34 +159,35 @@ class LikeProduct(models.Model):
         verbose_name = 'Sản phẩm yêu thích'
         verbose_name_plural = 'Sản phẩm yêu thích'
 
-class CartDetails(models.Model):
-    cart = models.ForeignKey('Cart', on_delete=models.CASCADE, related_name='CartDetails')
+class CartItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
-    price = models.FloatField(default=0)
 
     class Meta:
-        verbose_name = 'Chi tiết giỏ hàng'
-        verbose_name_plural = 'Chi tiết giỏ hàng'
-class Cart(models.Model):
+        verbose_name = 'Sản phẩm trong giỏ hàng'
+        verbose_name_plural = 'Sản phẩm trong giỏ hàng'
+
+class OrderDetail(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    cart_details = models.ForeignKey(CartDetails, on_delete=models.CASCADE, null=True, blank=True, related_name='Cart')
-    total_price = models.FloatField(default=0)
-    is_checkout = models.BooleanField(default=False)
+    total = models.FloatField()
+    order_date = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=100)
+    address = models.TextField()
+    phone = models.CharField(max_length=10)
 
     class Meta:
-        verbose_name = 'Giỏ hàng'
-        verbose_name_plural = 'Giỏ hàng'
+        verbose_name = 'Chi tiết đơn hàng'
+        verbose_name_plural = 'Chi tiết đơn hàng'
 
-class Order(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
-    is_paid = models.BooleanField(default=False)
-    is_shipped = models.BooleanField(default=False)
-    is_delivered = models.BooleanField(default=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+class OrderItem(models.Model):
+    order = models.ForeignKey(OrderDetail, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.IntegerField()
+    size = models.CharField(max_length=100, null=True, blank=True)
+    color = models.CharField(max_length=100, null=True, blank=True)
 
     class Meta:
-        verbose_name = 'Đơn hàng'
-        verbose_name_plural = 'Đơn hàng'
+        verbose_name = 'Sản phẩm trong đơn hàng'
+        verbose_name_plural = 'Sản phẩm trong đơn hàng'
+

@@ -16,4 +16,6 @@ urlpatterns = [
     path('wishlist/<int:product_id>', views.GetIsLikedProductView.as_view(), name='is_liked_product'),
     path('wishlist/add_remove', views.AddRemoveWishlistView.as_view(), name='add_remove_wishlist'),
     path('wishlist', views.GetWishlistView.as_view(), name='get_wishlist'),
+    path('product_by_category', views.GetProductByCategoryView.as_view(), name='get_product_by_category'),
+    path('add_remove_cart_item', views.AddRemoveCartItemView.as_view(), name='add_remove_cart_item'),
 ]
