@@ -216,7 +216,7 @@ const Home = () => {
         }
     };
 
-    const addToCart = (product_id) => {
+    const addToCart = (product_id, size, color) => {
         if (localStorage.getItem("refresh_token") === null) {
             setTimeout(() => {
                 toast.error("Cần đăng nhập để thực hiện chức năng này");
@@ -224,7 +224,7 @@ const Home = () => {
             navigate('/login');
         }
         else {
-            client.post("/api/add_remove_cart_item", { product_id: product_id, add_to_cart: true})
+            client.post("/api/add_remove_cart_item", { product_id: product_id, add_to_cart: true, size: size, color: color })
                 .then(res => {
                     toast.success("Thêm sản phẩm vào giỏ hàng thành công");
                 })
@@ -302,6 +302,7 @@ const Home = () => {
 
             setRenderMenProducts(renderFeatProducts(menFeatProducts));
             setRenderWomenProducts(renderFeatProducts(womenFeatProducts));
+            console.log(womenFeatProducts, menFeatProducts);
         }
     }, [menProducts, womenProducts]);
 
@@ -329,7 +330,19 @@ const Home = () => {
                                 <li className="w-icon active">
                                     <i>
                                         <SlHandbag className="cursor-pointer"
-                                            onClick={() => addToCart(item.id)}
+                                            onClick={() => {
+                                                let color = "";
+                                                let size = "";
+                                                for (let i = 0; i < item.productAttributes.length; i++) {
+                                                    if (item.productAttributes[i].attribute === "Màu sắc") {
+                                                        color = item.productAttributes[i].value;
+                                                    }
+                                                    if (item.productAttributes[i].attribute === "Kích cỡ") {
+                                                        size = item.productAttributes[i].value;
+                                                    }
+                                                }
+                                                addToCart(item.id, size, color);
+                                            }}
                                         />
                                     </i>
                                 </li>

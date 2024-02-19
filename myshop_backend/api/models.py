@@ -163,6 +163,8 @@ class CartItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
+    size = models.CharField(max_length=100, null=True, blank=True)
+    color = models.CharField(max_length=100, null=True, blank=True)
 
     class Meta:
         verbose_name = 'Sản phẩm trong giỏ hàng'
@@ -170,11 +172,14 @@ class CartItem(models.Model):
 
 class OrderDetail(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    total = models.FloatField()
+    total_price = models.FloatField()
     order_date = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=100)
-    address = models.TextField()
+    city = models.CharField(max_length=100)
+    district = models.CharField(max_length=100)
+    ward = models.CharField(max_length=100)
     phone = models.CharField(max_length=10)
+    payment_method = models.CharField(max_length=100)
 
     class Meta:
         verbose_name = 'Chi tiết đơn hàng'

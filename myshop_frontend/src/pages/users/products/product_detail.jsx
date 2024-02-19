@@ -3,7 +3,6 @@ import React, { useEffect } from 'react';
 import { useRef, useState } from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import MenuHeader from '../../../component/layouts/menu_header';
-import Counter from '../../../component/counter';
 import formatPrice from "../../../utils/formater"
 
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
@@ -76,8 +75,42 @@ const ProductDetail = () => {
             };
             fetchIsLiked();
         }
-        console.log(data);
     }, [data]);
+
+    const addToCart = (values) => {
+            if(localStorage.getItem('refresh_token') === null){
+                setTimeout(() => {
+                    toast.error("Cần đăng nhập để thực hiện chức năng này");
+                }, 1000);
+                navigate('/login');
+            }
+            else {
+                if (values.quantity === undefined) {
+                    values.quantity = 1;
+                }
+                console.log(values);
+                if(values.size === undefined && values.color === undefined){
+                    toast.error("Vui lòng chọn kích thước và màu sắc");
+                    return;
+                }
+                client.post('/api/add_remove_cart_item', {
+                    product_id: id,
+                    quantity: values.quantity,
+                    size: values.size,
+                    color: values.color,
+                    add_to_cart: true
+                })
+                .then((res) => {
+                    toast.success("Đã thêm vào giỏ hàng");
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+            }
+    };
+
+    const [form] = Form.useForm();
+
     return (
         <div>
             <MenuHeader />
@@ -147,19 +180,34 @@ const ProductDetail = () => {
                         </div>
                     </div>
 
-                    <Form name='' className="mt-5 w-2/3">
-                        <Form.Item className=''>
+                    <Form name='' className="mt-5 w-2/3" onFinish={addToCart} form={form}>
+                        {size.length > 0 ? (
+                        <Form.Item name="size" className=''>
                             <p className='mb-2 text-[16px]'>Kích thước</p>
-                            <Select options={size} placeholder="Kích thước" className='h-[40px] focus:border-[#949392] hover:border-[#949392]' />
+                            <Select
+                                onChange={(value) => {
+                                    form.setFieldsValue({ size: value });
+                                }}
+                                options={size} placeholder="Kích thước" className='h-[40px] focus:border-[#949392] hover:border-[#949392]' />
                         </Form.Item>
-                        <Form.Item className='-mt-2' >
+                        ) : null}
+                        {color.length > 0 ? (
+                        <Form.Item name="color" className='-mt-2' >
                             <p className='mb-2 text-[16px]'>Màu sắc</p>
-                            <Select options={color} placeholder="Màu sắc" className='h-[40px] focus:border-[#949392] hover:border-[#949392]' />
+                            <Select 
+                                onChange={(value) => {
+                                    form.setFieldsValue({ color: value });
+                                }}
+                                name="color" options={color} placeholder="Màu sắc" className='h-[40px] focus:border-[#949392] hover:border-[#949392]' />
                         </Form.Item>
+                        ) : null}
                         {/* <Counter /> */}
-                        <Form.Item className='-mt-2 '>
+                        <Form.Item name="quantity" className='-mt-2 '>
                             <p className='mb-2 text-[16px]'>Số lượng</p>
                             <Input
+                                onChange={(e) => {
+                                    form.setFieldsValue({ quantity: e.target.value });
+                                }}
                                 type='number'
                                 placeholder='1'
                                 min={1}

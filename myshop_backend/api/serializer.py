@@ -110,3 +110,10 @@ class WishlistSerializer(serializers.ModelSerializer):
     class Meta:
         model = LikeProduct
         fields = ('product',)
+
+class CartSerializer(serializers.ModelSerializer):
+    product = ProductSerializer()
+
+    class Meta:
+        model = CartItem
+        fields = ('product', 'quantity', 'size', 'color')

@@ -111,16 +111,30 @@ class AddRemoveCartItemView(APIView):
             return Response({'status': 'failed'})
         
         if request.data.get('add_to_cart', None) is not None:
+            quantity = 0
+            size = None
+            color = None
+            if request.data.get('quantity', None) is not None:
+                quantity = request.data['quantity']
+
+            if request.data.get('size', None) is not None:
+                size = request.data['size']
+
+            if request.data.get('color', None) is not None:
+                color = request.data['color']
+
             if CartItem.objects.filter(user=request.user, product=product).exists():
                 cart_item = CartItem.objects.get(user=request.user, product=product)
-                cart_item.quantity += 1
+                cart_item.quantity += int(quantity)
+                cart_item.size = size
+                cart_item.color = color
                 cart_item.save()
                 return Response({'status': 'added'})
             else:
-                CartItem.objects.create(user=request.user, product=product, quantity=1)
+                CartItem.objects.create(user=request.user, product=product, quantity=1, size=size, color=color)
                 return Response({'status': 'added'})
         
-        if request.data.get('remove', None) is not None:
+        if request.data.get('remove_from_cart', None) is not None:
             if CartItem.objects.filter(user=request.user, product=product).exists():
                 CartItem.objects.filter(user=request.user, product=product).delete()
                 return Response({'status': 'removed'})
@@ -138,3 +152,31 @@ class AddRemoveCartItemView(APIView):
             cart_item.quantity -= 1
             cart_item.save()
             return Response({'status': 'decremented'})
+
+class CartDetailView(APIView):
+    permission_classes = (IsAuthenticated,)
+    def get(self, request, *args, **kwargs):
+        cart_items = CartItem.objects.filter(user=request.user)
+        cart_serializer = CartSerializer(cart_items, many=True)
+        return Response(cart_serializer.data)
+
+class CheckoutView(APIView):
+    permission_classes = (IsAuthenticated,)
+    def post(self, request, *args, **kwargs):
+        phone = request.data['phone']
+        city = request.data['city']
+        district = request.data['district']
+        ward = request.data['ward']
+        payment_method = request.data['payment_method']
+        cart_items = CartItem.objects.filter(user=request.user)
+        total_price = 0
+        for item in cart_items:
+            if  item.product.discount_price:
+                total_price += item.product.discount_price * item.quantity
+            else:
+                total_price += item.product.origin_price * item.quantity
+        order = OrderDetail.objects.create(user=request.user, total_price=total_price, status='Đang chờ xử lý', city=city, district=district, ward=ward, phone=phone, payment_method=payment_method)
+        for item in cart_items:
+            OrderItem.objects.create(order=order, product=item.product, quantity=item.quantity, size=item.size, color=item.color)
+        # cart_items.delete()
+        return Response({'status': 'success'})

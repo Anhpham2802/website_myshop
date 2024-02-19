@@ -67,6 +67,10 @@ const renderUserRouter = () => {
             component: <Liked />,
         },
         {
+            path: ROUTERS.USER.CHECKOUT,
+            component: <Checkout />,
+        },
+        {
             path: ROUTERS.USER.STORE,
             component: <Store />,
         },
@@ -77,6 +81,10 @@ const renderUserRouter = () => {
         {
             path: ROUTERS.REGISTER,
             component: <Register />,
+        },
+        {
+            path: ROUTERS.USER.PROFILE,
+            component: <Profile />,
         }
     ]
 
