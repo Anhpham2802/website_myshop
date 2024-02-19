@@ -178,5 +178,19 @@ class CheckoutView(APIView):
         order = OrderDetail.objects.create(user=request.user, total_price=total_price, status='Đang chờ xử lý', city=city, district=district, ward=ward, phone=phone, payment_method=payment_method)
         for item in cart_items:
             OrderItem.objects.create(order=order, product=item.product, quantity=item.quantity, size=item.size, color=item.color)
-        # cart_items.delete()
+        cart_items.delete()
         return Response({'status': 'success'})
+    
+class GetOrderHistoryView(APIView):
+    permission_classes = (IsAuthenticated,)
+    def get(self, request, *args, **kwargs):
+        ret_data = []
+        orders = OrderDetail.objects.filter(user=request.user)
+        for order in orders:
+            ret_data.append(
+                {
+                    'order_items': OrderItemSerializer(OrderItem.objects.filter(order=order), many=True).data
+                }
+            )
+        return Response(ret_data)
+            

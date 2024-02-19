@@ -1,25 +1,35 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import React, { useEffect } from "react";
 import MenuHeader from "../../../component/layouts/menu_header";
 import { Button, Form, Input, Select } from 'antd';
 import axios from "axios";
 import { client } from "../../../api";
+import { toast } from "react-toastify";
 
 const Checkout = () => {
     const [citis, setCitis] = React.useState([]);
     const [districts, setDistricts] = React.useState([]);
     const [wards, setWards] = React.useState([]);
     const [data, setData] = React.useState([]);
-    let city = 0;
-    let district = 0;
-    let ward = 0;
+    let [city, setCity] = React.useState(0);
+    let [district, setDistrict] = React.useState(0);
+    let [ward, setWard] = React.useState(0);
     const [form] = Form.useForm();
+    const navigate = useNavigate();
+    const [cartData, setCartData] = React.useState([])
 
     useEffect(() => {
+        client.get('/api/cart')
+            .then(res => {
+                setCartData(res.data);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+
         axios.get('https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json')
             .then(res => {
                 setData(res.data);
-                // console.log(res.data);
                 if (res.status === 200) {
                     for (let i = 0; i < res.data.length; i++) {
                         setCitis(citis => [...citis, { label: res.data[i].Name, value: i }]);
@@ -40,7 +50,10 @@ const Checkout = () => {
             payment_method: values.payment_method === '1' ? 'Thanh toán trực tuyến' : 'Tiền mặt'
         })
         .then(res => {
-            console.log(res);
+            setTimeout(() => {
+                toast.success('Đặt hàng thành công');
+            }, 1000);
+            navigate('/history_cart');
         })
         .catch(err => {
             console.log(err);
@@ -56,7 +69,7 @@ const Checkout = () => {
                     <Link to="/login" className="text-[#6b7c88] hover:text-[#7b8a94]">Đăng nhập</Link>
                 </div>
             </div>
-        ) : (
+        ) : cartData.length !== 0 ? (
             <div>
                 <MenuHeader />
                 <div className="mt-10">
@@ -94,11 +107,11 @@ const Checkout = () => {
                                 ]}>
                                 <Select options={citis} className="h-10" placeholder="Chọn tỉnh thành"
                                     onSelect={(value) => {
-                                        city = value;
+                                        setCity(value);
                                         setDistricts([]);
                                         setWards([]);
-                                        for (let i = 0; i < data[city].Districts.length; i++) {
-                                            setDistricts(districts => [...districts, { label: data[city].Districts[i].Name, value: i }]);
+                                        for (let i = 0; i < data[value].Districts.length; i++) {
+                                            setDistricts(districts => [...districts, { label: data[value].Districts[i].Name, value: i }]);
                                         }
                                     }}
                                 />
@@ -113,10 +126,10 @@ const Checkout = () => {
                                 ]}>
                                 <Select options={districts} className="h-10" placeholder="Chọn quận huyện" 
                                     onSelect={(value) => {
-                                        district = value;
+                                        setDistrict(value);
                                         setWards([]);
-                                        for (let i = 0; i < data[city].Districts[district].Wards.length; i++) {
-                                            setWards(wards => [...wards, { label: data[city].Districts[district].Wards[i].Name, value: i }]);
+                                        for (let i = 0; i < data[city].Districts[value].Wards.length; i++) {
+                                            setWards(wards => [...wards, { label: data[city].Districts[value].Wards[i].Name, value: i }]);
                                         }
                                     }}
                                 />
@@ -131,7 +144,7 @@ const Checkout = () => {
                                 ]}>
                                 <Select options={wards} className="h-10" placeholder="Chọn phường xã" 
                                     onSelect={(value) => {
-                                        ward = value;
+                                        setWard(value);
                                     }}
                                 />
                             </Form.Item>
@@ -160,6 +173,14 @@ const Checkout = () => {
                         </Button>
                     </div>
                 </Form>
+            </div>
+        ) : (
+            <div>
+                <MenuHeader />
+                <div className="text-center mt-10">
+                    <p className="text-xl font-sans">Giỏ hàng của bạn đang trống</p>
+                    <Link to="/" className="text-[#6b7c88] hover:text-[#7b8a94]">Quay lại trang chủ</Link>
+                </div>
             </div>
         )
     );
