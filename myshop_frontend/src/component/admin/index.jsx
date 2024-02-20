@@ -2,15 +2,8 @@ import Sidebar from "./sidebar"
 import { ToastContainer } from 'react-toastify';
 import { Outlet } from "react-router";
 import { useEffect } from "react";
-import { verifyToken } from "../../api";
 
 const AdminLayout = () => {
-  useEffect(() => {
-    if (localStorage.getItem('refresh_token') != null) {
-        verifyToken();
-    }
-  }, []);
-
   return(
     <div>
       <ToastContainer
