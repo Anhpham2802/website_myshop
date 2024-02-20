@@ -14,16 +14,8 @@ import { Link, redirect } from "react-router-dom";
 import { DownOutlined } from '@ant-design/icons';
 import { Button, Dropdown } from 'antd';
 import { Space } from 'antd';
-import { verifyToken } from "../../api";
 
 const Header = () => {
-
-    useEffect(() => {
-        if (localStorage.getItem('refresh_token') != null) {
-            verifyToken();
-        }
-    }, []);
-
     const items = [
         {
           label: <Link to="/profile">Profile</Link>,

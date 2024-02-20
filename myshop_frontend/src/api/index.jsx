@@ -4,22 +4,6 @@ import { jwtDecode } from "jwt-decode";
 
 export { client };
 
-export const verifyToken = () => {
-  client.post("/api/verify_token", {
-      "token": localStorage.getItem(REFRESH_KEY)
-  }).then((res) => {
-      sessionStorage.setItem('isAuth', true);
-  }).catch((err) => {
-      sessionStorage.removeItem('isAuth');
-      localStorage.removeItem(REFRESH_KEY);
-      localStorage.removeItem(ACCESS_KEY);
-      localStorage.removeItem("username");
-      localStorage.removeItem("full_name");
-      localStorage.removeItem("email");
-      localStorage.removeItem("role");
-  });
-}
-
 export const login = async (credential) => {
   const response = await fetch(`${BASE_URL}/api/login`, {
     method: "POST",
@@ -30,7 +14,6 @@ export const login = async (credential) => {
   });
   if (response.status === 200) {
     const { refresh, access } = await response.json();
-    sessionStorage.setItem("isAuth", true);
     localStorage.setItem(REFRESH_KEY, refresh);
     localStorage.setItem(ACCESS_KEY, access);
 
@@ -56,7 +39,6 @@ export const logout = async () => {
       "refresh_token": localStorage.getItem(REFRESH_KEY),
   });
   if (response.status === 204) {
-    sessionStorage.removeItem("isAuth");
     localStorage.removeItem(REFRESH_KEY);
     localStorage.removeItem(ACCESS_KEY);
     localStorage.removeItem("username");

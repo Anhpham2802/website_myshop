@@ -64,7 +64,22 @@ client.interceptors.response.use(
           isRefreshing = false;
           return client(originalRequest);
         } else if (response.status === 401) {
-          // logout();
+          const res = await fetch(`${BASE_URL}/api/logout`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              refresh: refreshToken,
+            }),
+          });
+          localStorage.removeItem(REFRESH_KEY);
+          localStorage.removeItem(ACCESS_KEY);
+          localStorage.removeItem("username");
+          localStorage.removeItem("full_name");
+          localStorage.removeItem("email");
+          localStorage.removeItem("role");
+          console.log("Logout status code: ", res.status);
         }
       } else {
         return new Promise((resolve, reject) => {
