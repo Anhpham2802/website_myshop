@@ -302,7 +302,6 @@ const Home = () => {
 
             setRenderMenProducts(renderFeatProducts(menFeatProducts));
             setRenderWomenProducts(renderFeatProducts(womenFeatProducts));
-            console.log(womenFeatProducts, menFeatProducts);
         }
     }, [menProducts, womenProducts]);
 

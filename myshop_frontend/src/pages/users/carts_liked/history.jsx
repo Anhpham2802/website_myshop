@@ -1,23 +1,8 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import MenuHeader from '../../../component/layouts/menu_header';
-import anh1 from "../../../assets/users/1.1.jpg";
-
-
-// import Counter from '../../../component/counter';
 import formatPrice from "../../../utils/formater";
 import { client } from '../../../api';
-// import { RiDeleteBin5Line } from "react-icons/ri";
-
-// const Counter = () => {
-//     return (
-//         <div className="flex">
-//             <button className='border-[1px] border-[#edeceb] w-[30px] h-[30px] rounded-l-md'>-</button>
-//             <input type="text" className='w-[30px] h-[30px] text-center border-[1px] border-[#edeceb]' value='1' />
-//             <button className='border-[1px] border-[#edeceb] w-[30px] h-[30px] rounded-r-md'>+</button>
-//         </div>
-//     )
-// }
 
 const HistoryCart = () => {
     const [data, setData] = React.useState([]);
@@ -26,7 +11,7 @@ const HistoryCart = () => {
         client.get('/api/history_order')
             .then(res => {
                 setData(res.data);
-                console.log(res.data);
+                // console.log(res.data);
             })
             .catch(err => {
                 console.log(err);
