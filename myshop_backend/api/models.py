@@ -178,6 +178,7 @@ class OrderDetail(models.Model):
     city = models.CharField(max_length=100)
     district = models.CharField(max_length=100)
     ward = models.CharField(max_length=100)
+    other_address = models.TextField()
     phone = models.CharField(max_length=10)
     payment_method = models.CharField(max_length=100)
 

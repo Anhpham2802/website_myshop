@@ -10,8 +10,7 @@ const HistoryCart = () => {
     useEffect(() => {
         client.get('/api/history_order')
             .then(res => {
-                setData(res.data);
-                // console.log(res.data);
+                setData(res.data.reverse());
             })
             .catch(err => {
                 console.log(err);
@@ -48,13 +47,14 @@ const HistoryCart = () => {
                                             <img src={orderItem.product.images[0].image} alt="" className='w-[130px] h-[150px] ml-5 -mr-10' />
                                             <div className="w-1/2">
                                                 <Link to={`/product/${orderItem.id}`} className='font-thin mt-1 text-[17px] font-serif h-[50px] overflow-hidden'>{orderItem.product.name}</Link>
-                                                <p className='text-[#777] text-[13px] my-2'>Nơi nhận hàng: {orderItem.order.ward} - {orderItem.order.district} - {orderItem.order.city}</p>
+                                                <p className='text-[#777] text-[13px] my-2'>Nơi nhận hàng: {orderItem.order.otherAddress} - {orderItem.order.ward} - {orderItem.order.district} - {orderItem.order.city}</p>
                                                 {orderItem.color !== null ? (
                                                     <p> Màu sắc: {orderItem.color} </p>
                                                 ) : null}
                                                 {orderItem.size !== null ? (
                                                     <p> Kích thước: {orderItem.size} </p>
                                                 ) : null}
+                                                <p>Ngày đặt hàng: {new Date(orderItem.order.orderDate).toLocaleDateString("vi-VN")}</p>
                                             </div>
                                             <p>{orderItem.quantity}</p>
                                             {orderItemIndex === 0 ? (

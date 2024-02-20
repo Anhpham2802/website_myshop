@@ -167,6 +167,7 @@ class CheckoutView(APIView):
         city = request.data['city']
         district = request.data['district']
         ward = request.data['ward']
+        other_address = request.data['other_address']
         payment_method = request.data['payment_method']
         cart_items = CartItem.objects.filter(user=request.user)
         total_price = 0
@@ -175,7 +176,7 @@ class CheckoutView(APIView):
                 total_price += item.product.discount_price * item.quantity
             else:
                 total_price += item.product.origin_price * item.quantity
-        order = OrderDetail.objects.create(user=request.user, total_price=total_price, status='Đang chờ xử lý', city=city, district=district, ward=ward, phone=phone, payment_method=payment_method)
+        order = OrderDetail.objects.create(user=request.user, total_price=total_price, status='Đang chờ xử lý', city=city, district=district, ward=ward, other_address=other_address, phone=phone, payment_method=payment_method)
         for item in cart_items:
             OrderItem.objects.create(order=order, product=item.product, quantity=item.quantity, size=item.size, color=item.color)
         cart_items.delete()

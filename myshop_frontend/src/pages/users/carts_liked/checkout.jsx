@@ -47,6 +47,7 @@ const Checkout = () => {
             city: data[values.city].Name,
             district: data[values.city].Districts[values.district].Name,
             ward: data[values.city].Districts[values.district].Wards[values.ward].Name,
+            other_address: values.other_address,
             payment_method: values.payment_method === '1' ? 'Thanh toán trực tuyến' : 'Tiền mặt'
         })
         .then(res => {
@@ -148,6 +149,20 @@ const Checkout = () => {
                                     }}
                                 />
                             </Form.Item>
+                            <Form.Item name="other_address">
+                            <Input
+                                type="text"
+                                placeholder="Nhập địa chỉ thôn, xóm, số nhà, phố"
+                                className="w-full h-[40px] border-[1px] border-[#cac6c6]"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Vui lòng nhập địa chỉ thôn, xóm, số nhà, phố!',
+                                    },
+                                ]}
+                            >
+                            </Input>
+                        </Form.Item>
 
                             <p className="mb-2">Phương thức thanh toán</p>
                             <Form.Item
